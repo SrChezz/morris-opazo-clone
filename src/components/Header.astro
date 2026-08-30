@@ -65,15 +65,15 @@ import { nav } from '../data/site';
     transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
   }
   .site-header.scrolled { border-bottom-color: var(--line); background: color-mix(in srgb, var(--ink) 92%, transparent); }
-  .bar { display: flex; align-items: center; gap: 1.5rem; height: 72px; }
+  .bar { display: flex; align-items: center; gap: 1rem; height: 72px; flex-wrap: nowrap; }
 
-  .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; }
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; white-space: nowrap; flex: 0 0 auto; }
   .brand__amp { color: var(--brand-400); }
 
-  .nav { margin-left: auto; }
-  .nav__list { display: flex; align-items: center; gap: 0.35rem; }
-  .nav__item { position: relative; }
-  .nav__link { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.7rem; font-size: 0.925rem; color: var(--muted); border-radius: 8px; transition: color 0.2s var(--ease); }
+  .nav { margin-left: auto; min-width: 0; }
+  .nav__list { display: flex; align-items: center; gap: 0.15rem; flex-wrap: nowrap; }
+  .nav__item { position: relative; flex: 0 0 auto; }
+  .nav__link { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.6rem; font-size: 0.9rem; color: var(--muted); border-radius: 8px; white-space: nowrap; transition: color 0.2s var(--ease); }
   .nav__link:hover { color: var(--paper); }
   .nav__chev { opacity: 0.6; transition: transform 0.2s var(--ease); }
   .nav__item--has-menu:hover .nav__chev { transform: rotate(180deg); }
@@ -90,9 +90,9 @@ import { nav } from '../data/site';
   .nav__menu a { display: block; padding: 0.6rem 0.8rem; font-size: 0.9rem; color: var(--muted); border-radius: 8px; transition: background 0.15s, color 0.15s; }
   .nav__menu a:hover { background: var(--ink-3); color: var(--paper); }
 
-  .header__cta { padding: 0.6em 1.15em; font-size: 0.9rem; }
+  .header__cta { padding: 0.6em 1.15em; font-size: 0.9rem; white-space: nowrap; flex: 0 0 auto; }
 
-  .burger { display: none; flex-direction: column; gap: 5px; padding: 8px; margin-left: auto; }
+  .burger { display: none; flex-direction: column; gap: 5px; padding: 8px; margin-left: auto; flex: 0 0 auto; }
   .burger span { width: 22px; height: 2px; background: var(--paper); border-radius: 2px; transition: transform 0.3s var(--ease), opacity 0.2s; }
   .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -103,8 +103,13 @@ import { nav } from '../data/site';
   .mobile-nav a { display: block; padding: 0.7rem 0; font-size: 1.05rem; color: var(--muted); }
   .mobile-nav a:hover { color: var(--paper); }
 
-  @media (max-width: 1024px) {
-    .nav, .header__cta { display: none; }
+  /* Below ~1200px the 9-item nav + brand + CTA no longer fit comfortably:
+     drop the CTA first, then collapse to the burger menu. */
+  @media (max-width: 1200px) {
+    .header__cta { display: none; }
+  }
+  @media (max-width: 1120px) {
+    .nav { display: none; }
     .burger { display: flex; }
   }
 </style>
