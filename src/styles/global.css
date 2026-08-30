@@ -1,0 +1,155 @@
+/* ============================================================
+   Morris & Opazo — global styles
+   Tokens are the single source of truth (see .kiro/steering/design-system.md)
+   ============================================================ */
+
+/* ---- Reset (modern, minimal) ---- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+img, picture, svg, video, canvas { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; padding: 0; }
+:where(h1, h2, h3, h4) { line-height: 1.05; text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* ---- Design tokens ---- */
+:root {
+  /* brand */
+  --brand: #605BE5;
+  --brand-400: #8B7CFF;
+  --brand-600: #4B45C9;
+  --accent-cyan: #38E8D8;
+
+  /* ink / surfaces */
+  --ink: #0B0B12;
+  --ink-2: #12121C;
+  --ink-3: #1B1B29;
+
+  /* text */
+  --paper: #FFFFFF;
+  --muted: #A6A6B8;
+  --muted-2: #6E6E82;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  /* signature gradient */
+  --grad-flow: linear-gradient(120deg, #605BE5 0%, #8B7CFF 45%, #38E8D8 100%);
+  --grad-soft: radial-gradient(80% 120% at 20% 0%, rgba(96,91,229,0.28), transparent 60%);
+
+  /* type */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --fs-eyebrow: 0.8125rem;
+  --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --fs-h2: clamp(1.9rem, 1.4rem + 2.2vw, 3.25rem);
+  --fs-display: clamp(2.6rem, 1.6rem + 5vw, 6rem);
+
+  /* layout */
+  --container: 1200px;
+  --pad-x: clamp(1.25rem, 5vw, 4rem);
+  --section-y: clamp(5rem, 10vw, 9rem);
+
+  /* radii & motion */
+  --r-card: 16px;
+  --r-btn: 999px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.6s;
+}
+
+/* ---- Base ---- */
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+
+/* ---- Layout utilities ---- */
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--pad-x); }
+.section { padding-block: var(--section-y); }
+.below-fold { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+
+/* ---- Type utilities ---- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brand-400);
+}
+.h2 { font-size: var(--fs-h2); }
+.h3 { font-size: var(--fs-h3); }
+.muted { color: var(--muted); }
+.gradient-text {
+  background: var(--grad-flow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6em;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.975rem;
+  padding: 0.85em 1.6em; border-radius: var(--r-btn);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease), background 0.25s var(--ease);
+  will-change: transform;
+}
+.btn--primary { background: var(--brand); color: #fff; }
+.btn--primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -8px rgba(96,91,229,0.6); }
+.btn--ghost { border: 1px solid var(--line-strong); color: var(--paper); }
+.btn--ghost:hover { border-color: var(--brand-400); transform: translateY(-2px); }
+.btn__arrow { transition: transform 0.25s var(--ease); }
+.btn:hover .btn__arrow { transform: translateX(3px); }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.card:hover { transform: translateY(-4px); border-color: var(--brand-400); box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6); }
+
+/* ---- Accessibility ---- */
+:focus-visible { outline: 2px solid var(--brand-400); outline-offset: 3px; border-radius: 4px; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- Scroll reveal (used by Reveal.astro) ---- */
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+[data-reveal-delay="4"] { transition-delay: 0.32s; }
+
+/* ---- Keyframes ---- */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes drift { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+@keyframes sweep-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+}

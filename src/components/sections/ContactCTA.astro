@@ -1,0 +1,117 @@
+---
+// Contact CTA — the conversion moment. Signature-adjacent, but disciplined.
+import Reveal from '../Reveal.astro';
+import Button from '../Button.astro';
+---
+
+<section id="contacto" class="section cta" aria-labelledby="cta-title">
+  <div class="container">
+    <Reveal>
+      <div class="card cta__panel">
+        <div class="cta__glow" aria-hidden="true"></div>
+        <div class="cta__content">
+          <p class="eyebrow">Hablemos</p>
+          <h2 id="cta-title" class="h2 cta__title">
+            El siguiente paso en la transformación de tu empresa comienza aquí.
+          </h2>
+          <p class="cta__sub muted">
+            Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un
+            equipo que combina estrategia, innovación y excelencia técnica.
+          </p>
+
+          <div class="cta__actions">
+            <Button href="#contacto" variant="primary">Solicite una asesoría sin costo</Button>
+          </div>
+
+          <div class="cta__talent">
+            <span class="cta__talent-text">¿Estás buscando una nueva oportunidad laboral?</span>
+            <Button href="/talento" variant="ghost" arrow={false}>Ver sección Talento</Button>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>
+
+<style>
+  .cta__panel {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center;
+    isolation: isolate;
+  }
+
+  /* soft brand glow behind the panel content */
+  .cta__glow {
+    position: absolute;
+    inset: -40% -10% auto -10%;
+    height: 120%;
+    background: var(--grad-soft);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* animated gradient hairline framing the panel */
+  .cta__panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--grad-flow);
+    background-size: 200% 100%;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.45;
+    animation: drift 8s linear infinite;
+    pointer-events: none;
+  }
+
+  .cta__content {
+    max-width: 46rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .cta__title {
+    max-width: 22ch;
+    letter-spacing: -0.02em;
+  }
+
+  .cta__sub {
+    max-width: 54ch;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+  }
+
+  .cta__actions { margin-top: 0.75rem; }
+
+  .cta__talent {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta__talent-text {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta__panel::before { animation: none; }
+  }
+</style>

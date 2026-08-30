@@ -1,0 +1,131 @@
+---
+import { nav } from '../data/site';
+---
+
+<header class="site-header" id="site-header">
+  <div class="container bar">
+    <a href="/" class="brand" aria-label="Morris & Opazo — inicio">
+      <svg class="brand__mark" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#605BE5"/><stop offset="0.5" stop-color="#8B7CFF"/><stop offset="1" stop-color="#38E8D8"/>
+          </linearGradient>
+        </defs>
+        <path d="M14 44V20l9 12 9-12v24" fill="none" stroke="url(#hg)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="46" cy="24" r="5" fill="url(#hg)"/>
+      </svg>
+      <span class="brand__name">Morris <span class="brand__amp">&amp;</span> Opazo</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul class="nav__list">
+        {nav.map((item) => (
+          <li class={item.children ? 'nav__item nav__item--has-menu' : 'nav__item'}>
+            <a href={item.href} class="nav__link">
+              {item.label}
+              {item.children && (
+                <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" class="nav__chev"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+              )}
+            </a>
+            {item.children && (
+              <div class="nav__menu">
+                <ul>
+                  {item.children.map((c) => (
+                    <li><a href={c.href}>{c.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <a href="#contacto" class="btn btn--primary header__cta">Asesoría sin costo</a>
+
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <ul>
+      {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    </ul>
+    <a href="#contacto" class="btn btn--primary" style="width:100%;justify-content:center;">Solicite una asesoría sin costo</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--ink) 78%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .site-header.scrolled { border-bottom-color: var(--line); background: color-mix(in srgb, var(--ink) 92%, transparent); }
+  .bar { display: flex; align-items: center; gap: 1.5rem; height: 72px; }
+
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; }
+  .brand__amp { color: var(--brand-400); }
+
+  .nav { margin-left: auto; }
+  .nav__list { display: flex; align-items: center; gap: 0.35rem; }
+  .nav__item { position: relative; }
+  .nav__link { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.7rem; font-size: 0.925rem; color: var(--muted); border-radius: 8px; transition: color 0.2s var(--ease); }
+  .nav__link:hover { color: var(--paper); }
+  .nav__chev { opacity: 0.6; transition: transform 0.2s var(--ease); }
+  .nav__item--has-menu:hover .nav__chev { transform: rotate(180deg); }
+
+  .nav__menu {
+    position: absolute; top: calc(100% + 8px); left: 0; min-width: 240px;
+    background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px;
+    padding: 0.5rem; opacity: 0; visibility: hidden; transform: translateY(6px);
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+    box-shadow: 0 24px 48px -24px rgba(0,0,0,0.7);
+  }
+  .nav__item--has-menu:hover .nav__menu,
+  .nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: none; }
+  .nav__menu a { display: block; padding: 0.6rem 0.8rem; font-size: 0.9rem; color: var(--muted); border-radius: 8px; transition: background 0.15s, color 0.15s; }
+  .nav__menu a:hover { background: var(--ink-3); color: var(--paper); }
+
+  .header__cta { padding: 0.6em 1.15em; font-size: 0.9rem; }
+
+  .burger { display: none; flex-direction: column; gap: 5px; padding: 8px; margin-left: auto; }
+  .burger span { width: 22px; height: 2px; background: var(--paper); border-radius: 2px; transition: transform 0.3s var(--ease), opacity 0.2s; }
+  .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav { padding: 1rem var(--pad-x) 2rem; border-top: 1px solid var(--line); display: grid; gap: 1rem; }
+  .mobile-nav ul { display: grid; gap: 0.25rem; }
+  .mobile-nav a { display: block; padding: 0.7rem 0; font-size: 1.05rem; color: var(--muted); }
+  .mobile-nav a:hover { color: var(--paper); }
+
+  @media (max-width: 1024px) {
+    .nav, .header__cta { display: none; }
+    .burger { display: flex; }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const burger = document.getElementById('burger');
+  const mobile = document.getElementById('mobile-nav');
+  burger?.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    if (mobile) mobile.hidden = open;
+  });
+  mobile?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      burger?.setAttribute('aria-expanded', 'false');
+      if (mobile) mobile.hidden = true;
+    })
+  );
+</script>

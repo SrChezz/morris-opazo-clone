@@ -1,0 +1,196 @@
+---
+// Hero — the signature moment. LCP area: nothing critical is lazy-loaded.
+// Single <h1> on the page. Gradient sweep reveal on "Transformamos negocios."
+import Button from '../Button.astro';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <!-- Ambient animated gradient mesh (decorative, GPU-friendly). -->
+  <div class="hero__mesh" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <span class="eyebrow hero__eyebrow">El partner que entiende tu industria.</span>
+
+    <h1 id="hero-title" class="hero__title">
+      <span class="hero__line hero__line--1">No implementamos cloud.</span>
+      <span class="hero__line hero__line--2">
+        <span class="hero__reveal gradient-text">Transformamos negocios.</span>
+      </span>
+    </h1>
+
+    <span class="hero__badge">
+      <span class="hero__badge-dot" aria-hidden="true"></span>
+      Partner oficial de AWS
+    </span>
+
+    <div class="hero__props">
+      <article class="card hero__prop">
+        <p class="hero__prop-text">
+          Automatización inteligente y modelos avanzados de Gen AI.
+        </p>
+        <Button href="#servicios" variant="ghost">Ver soluciones</Button>
+      </article>
+
+      <article class="card hero__prop">
+        <p class="hero__prop-text">
+          Infraestructura cloud y aceleración tecnológica para Startups en Latam.
+        </p>
+        <Button href="#servicios" variant="ghost">Ver soluciones</Button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: min(100svh, 900px);
+    display: flex;
+    align-items: center;
+    padding-block: clamp(6rem, 14vh, 9rem) clamp(4rem, 10vh, 7rem);
+  }
+
+  /* Ambient drifting gradient mesh behind the type. */
+  .hero__mesh {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 120%;
+    z-index: -2;
+    background:
+      radial-gradient(38% 55% at 22% 18%, rgba(96, 91, 229, 0.30), transparent 62%),
+      radial-gradient(34% 48% at 82% 30%, rgba(56, 232, 216, 0.14), transparent 60%),
+      radial-gradient(46% 60% at 60% 88%, rgba(139, 124, 255, 0.18), transparent 64%);
+    background-size: 180% 180%;
+    background-position: 0% 50%;
+    filter: blur(6px);
+    animation: hero-drift 26s ease-in-out infinite alternate;
+    will-change: background-position;
+  }
+
+  /* Soft signature glow anchored to the headline. */
+  .hero__glow {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    background: var(--grad-soft);
+    opacity: 0.9;
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 4vw, 2.25rem);
+  }
+
+  .hero__eyebrow {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hero-fade-up 0.7s var(--ease) 0.1s forwards;
+  }
+
+  .hero__title {
+    font-size: var(--fs-display);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+  }
+  .hero__line { display: block; }
+  .hero__line--1 {
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-fade-up 0.7s var(--ease) 0.22s forwards;
+  }
+  .hero__line--2 { position: relative; }
+
+  /* The bold moment: gradient text revealed with a clip-path sweep. */
+  .hero__reveal {
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    animation: hero-sweep 0.95s var(--ease) 0.5s forwards;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.5em 0.9em;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-btn);
+    background: rgba(255, 255, 255, 0.02);
+    opacity: 0;
+    animation: hero-fade-up 0.7s var(--ease) 0.85s forwards;
+  }
+  .hero__badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px 1px rgba(56, 232, 216, 0.7);
+  }
+
+  .hero__props {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    width: 100%;
+    max-width: 780px;
+    margin-top: clamp(0.5rem, 2vw, 1.25rem);
+  }
+  .hero__prop {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    opacity: 0;
+    transform: translateY(18px);
+    animation: hero-fade-up 0.7s var(--ease) forwards;
+  }
+  .hero__props > .hero__prop:nth-child(1) { animation-delay: 1s; }
+  .hero__props > .hero__prop:nth-child(2) { animation-delay: 1.12s; }
+  .hero__prop-text {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--fs-h3);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+
+  @keyframes hero-drift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  @keyframes hero-sweep {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes hero-fade-up {
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 640px) {
+    .hero__props { grid-template-columns: 1fr; }
+    .hero__title { max-width: 100%; }
+  }
+
+  /* Reduced motion: show everything instantly, kill drift. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__mesh { animation: none; }
+    .hero__eyebrow,
+    .hero__line--1,
+    .hero__badge,
+    .hero__prop { opacity: 1; transform: none; animation: none; }
+    .hero__reveal { clip-path: none; animation: none; }
+  }
+</style>

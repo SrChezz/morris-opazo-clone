@@ -1,0 +1,131 @@
+---
+// Stats band — 4 metrics with count-up on scroll into view.
+import { stats } from '../../data/site';
+import Reveal from '../Reveal.astro';
+---
+
+<section class="section stats below-fold" aria-label="Cifras de Morris & Opazo">
+  <div class="container">
+    <div class="stats__divider" aria-hidden="true"></div>
+    <ul class="stats__grid" role="list">
+      {
+        stats.map((stat, i) => (
+          <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4} class="stats__item">
+            <span
+              class="stats__value"
+              data-count
+              data-target={stat.target}
+              data-prefix={stat.prefix}
+              data-suffix={stat.suffix}
+            >
+              {stat.value}
+            </span>
+            <span class="stats__label">{stat.label}</span>
+          </Reveal>
+        ))
+      }
+    </ul>
+    <div class="stats__divider" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .stats__divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--line) 15%,
+      rgba(139, 124, 255, 0.5) 50%,
+      var(--line) 85%,
+      transparent
+    );
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    list-style: none;
+    margin: 0;
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    text-align: center;
+  }
+
+  .stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .stats__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 1.6rem + 3.5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stats__label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    max-width: 16ch;
+  }
+
+  @media (max-width: 720px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nodes = document.querySelectorAll<HTMLElement>('[data-count]');
+
+  const render = (el: HTMLElement, n: number) => {
+    const prefix = el.dataset.prefix ?? '';
+    const suffix = el.dataset.suffix ?? '';
+    el.textContent = `${prefix}${n}${suffix}`;
+  };
+
+  const animate = (el: HTMLElement) => {
+    const target = Number(el.dataset.target ?? '0');
+    if (reduce || target <= 1) {
+      render(el, target);
+      return;
+    }
+    const duration = 1400;
+    const start = performance.now();
+    // easeOutCubic for a confident settle
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    const step = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      render(el, Math.round(ease(t) * target));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  if (reduce) {
+    nodes.forEach((el) => animate(el));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+    nodes.forEach((el) => io.observe(el));
+  }
+</script>

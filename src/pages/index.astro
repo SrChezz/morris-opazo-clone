@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import ClientLogos from '../components/sections/ClientLogos.astro';
+import Approach360 from '../components/sections/Approach360.astro';
+import Services from '../components/sections/Services.astro';
+import Stats from '../components/sections/Stats.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import CustomerStories from '../components/sections/CustomerStories.astro';
+import ContactCTA from '../components/sections/ContactCTA.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main id="content">
+    <Hero />
+    <ClientLogos />
+    <Approach360 />
+    <Services />
+    <Stats />
+    <Testimonials />
+    <CustomerStories />
+    <ContactCTA />
+  </main>
+  <Footer />
+</BaseLayout>

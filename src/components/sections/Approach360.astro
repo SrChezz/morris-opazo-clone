@@ -1,0 +1,91 @@
+---
+// Approach360 — spacious statement + expertise chips.
+import Reveal from '../Reveal.astro';
+import { services } from '../../data/site';
+---
+
+<section class="approach section below-fold" aria-labelledby="approach-title">
+  <div class="container approach__inner">
+    <Reveal>
+      <span class="eyebrow">Acompañamiento 360°</span>
+    </Reveal>
+
+    <Reveal delay={1} as="p">
+      <span id="approach-title" class="approach__statement">
+        Para que tu empresa saque el máximo provecho de AWS
+        <span class="approach__dash"> — </span>
+        <span class="gradient-text">en cada etapa del camino.</span>
+      </span>
+    </Reveal>
+
+    <Reveal delay={2} class="approach__experts">
+      <p class="approach__sub">Expertos en</p>
+      <ul class="approach__chips">
+        {services.map((service) => (
+          <li>
+            <a class="approach__chip" href="#servicios">{service.title}</a>
+          </li>
+        ))}
+      </ul>
+    </Reveal>
+  </div>
+</section>
+
+<style>
+  .approach__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.75rem, 4vw, 2.75rem);
+    max-width: 940px;
+  }
+
+  .approach__statement {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-h2);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    text-wrap: balance;
+  }
+  .approach__dash { color: var(--muted-2); }
+
+  .approach__experts { margin-top: clamp(0.5rem, 2vw, 1.5rem); }
+
+  .approach__sub {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted-2);
+    margin-bottom: 1.25rem;
+  }
+
+  .approach__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .approach__chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--muted);
+    padding: 0.65em 1.15em;
+    border: 1px solid var(--line);
+    border-radius: var(--r-btn);
+    background: var(--ink-2);
+    transition: color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+    will-change: transform;
+  }
+  .approach__chip:hover,
+  .approach__chip:focus-visible {
+    color: var(--paper);
+    border-color: var(--brand-400);
+    transform: translateY(-2px);
+  }
+</style>

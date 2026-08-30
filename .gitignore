@@ -1,0 +1,23 @@
+# build output
+dist/
+.output/
+.vercel/
+
+# deps
+node_modules/
+
+# astro
+.astro/
+
+# env & logs
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
