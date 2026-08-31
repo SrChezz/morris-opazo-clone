@@ -11,9 +11,15 @@
       ]
     },
     {
-      "source": "/favicon.svg",
+      "source": "/(favicon-32.png|favicon-192.png|apple-touch-icon.png|favicon.svg)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
     }
   ]

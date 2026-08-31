@@ -5,16 +5,15 @@ import { nav } from '../data/site';
 <header class="site-header" id="site-header">
   <div class="container bar">
     <a href="/" class="brand" aria-label="Morris & Opazo — inicio">
-      <svg class="brand__mark" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
-        <defs>
-          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#605BE5"/><stop offset="0.5" stop-color="#8B7CFF"/><stop offset="1" stop-color="#38E8D8"/>
-          </linearGradient>
-        </defs>
-        <path d="M14 44V20l9 12 9-12v24" fill="none" stroke="url(#hg)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="46" cy="24" r="5" fill="url(#hg)"/>
-      </svg>
-      <span class="brand__name">Morris <span class="brand__amp">&amp;</span> Opazo</span>
+      <img
+        class="brand__logo"
+        src="/img/logo-morrisopazo.png"
+        alt="Morris & Opazo"
+        width="531"
+        height="77"
+        decoding="async"
+        fetchpriority="high"
+      />
     </a>
 
     <nav class="nav" aria-label="Principal">
@@ -49,8 +48,26 @@ import { nav } from '../data/site';
   </div>
 
   <div class="mobile-nav" id="mobile-nav" hidden>
-    <ul>
-      {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    <ul class="mobile-nav__list">
+      {nav.map((item) => (
+        item.children ? (
+          <li class="mobile-nav__group">
+            <details>
+              <summary>
+                {item.label}
+                <svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true" class="mobile-nav__chev"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+              </summary>
+              <ul class="mobile-nav__sub">
+                {item.children.map((c) => (
+                  <li><a href={c.href}>{c.label}</a></li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        ) : (
+          <li><a href={item.href}>{item.label}</a></li>
+        )
+      ))}
     </ul>
     <a href="#contacto" class="btn btn--primary" style="width:100%;justify-content:center;">Solicite una asesoría sin costo</a>
   </div>
@@ -67,13 +84,13 @@ import { nav } from '../data/site';
   .site-header.scrolled { border-bottom-color: var(--line); background: color-mix(in srgb, var(--ink) 92%, transparent); }
   .bar { display: flex; align-items: center; gap: 1rem; height: 72px; flex-wrap: nowrap; }
 
-  .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; white-space: nowrap; flex: 0 0 auto; }
-  .brand__amp { color: var(--brand-400); }
+  .brand { display: inline-flex; align-items: center; gap: 0.6rem; white-space: nowrap; flex: 0 0 auto; }
+  .brand__logo { height: 30px; width: auto; display: block; }
 
   .nav { margin-left: auto; min-width: 0; }
   .nav__list { display: flex; align-items: center; gap: 0.15rem; flex-wrap: nowrap; }
   .nav__item { position: relative; flex: 0 0 auto; }
-  .nav__link { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.6rem; font-size: 0.9rem; color: var(--muted); border-radius: 8px; white-space: nowrap; transition: color 0.2s var(--ease); }
+  .nav__link { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.5rem; font-size: 0.875rem; color: var(--muted); border-radius: 8px; white-space: nowrap; transition: color 0.2s var(--ease); }
   .nav__link:hover { color: var(--paper); }
   .nav__chev { opacity: 0.6; transition: transform 0.2s var(--ease); }
   .nav__item--has-menu:hover .nav__chev { transform: rotate(180deg); }
@@ -90,7 +107,7 @@ import { nav } from '../data/site';
   .nav__menu a { display: block; padding: 0.6rem 0.8rem; font-size: 0.9rem; color: var(--muted); border-radius: 8px; transition: background 0.15s, color 0.15s; }
   .nav__menu a:hover { background: var(--ink-3); color: var(--paper); }
 
-  .header__cta { padding: 0.6em 1.15em; font-size: 0.9rem; white-space: nowrap; flex: 0 0 auto; }
+  .header__cta { padding: 0.6em 1.15em; font-size: 0.9rem; white-space: nowrap; flex: 0 0 auto; margin-left: 0.75rem; }
 
   .burger { display: none; flex-direction: column; gap: 5px; padding: 8px; margin-left: auto; flex: 0 0 auto; }
   .burger span { width: 22px; height: 2px; background: var(--paper); border-radius: 2px; transition: transform 0.3s var(--ease), opacity 0.2s; }
@@ -98,19 +115,38 @@ import { nav } from '../data/site';
   .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  .mobile-nav { padding: 1rem var(--pad-x) 2rem; border-top: 1px solid var(--line); display: grid; gap: 1rem; }
-  .mobile-nav ul { display: grid; gap: 0.25rem; }
+  .mobile-nav { display: none; }
+  .mobile-nav__list { display: grid; gap: 0.15rem; }
   .mobile-nav a { display: block; padding: 0.7rem 0; font-size: 1.05rem; color: var(--muted); }
   .mobile-nav a:hover { color: var(--paper); }
 
+  .mobile-nav__group details { border-bottom: 1px solid var(--line); }
+  .mobile-nav__group summary {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.7rem 0; font-size: 1.05rem; color: var(--muted);
+    cursor: pointer; list-style: none;
+  }
+  .mobile-nav__group summary::-webkit-details-marker { display: none; }
+  .mobile-nav__group summary:hover { color: var(--paper); }
+  .mobile-nav__chev { opacity: 0.6; transition: transform 0.2s var(--ease); flex: 0 0 auto; }
+  .mobile-nav__group details[open] > summary .mobile-nav__chev { transform: rotate(180deg); }
+  .mobile-nav__sub { display: grid; gap: 0; padding: 0 0 0.5rem 0.9rem; border-left: 1px solid var(--line); margin-left: 0.1rem; }
+  .mobile-nav__sub a { padding: 0.5rem 0; font-size: 0.95rem; }
+
   /* Below ~1200px the 9-item nav + brand + CTA no longer fit comfortably:
      drop the CTA first, then collapse to the burger menu. */
-  @media (max-width: 1200px) {
+  @media (max-width: 1300px) {
     .header__cta { display: none; }
   }
   @media (max-width: 1120px) {
     .nav { display: none; }
     .burger { display: flex; }
+    .mobile-nav:not([hidden]) {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem var(--pad-x) 2rem;
+      border-top: 1px solid var(--line);
+    }
   }
 </style>
 

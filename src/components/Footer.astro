@@ -6,15 +6,14 @@ import { site, services, industries } from '../data/site';
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <div class="brand">
-          <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
-            <defs><linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#605BE5"/><stop offset="0.5" stop-color="#8B7CFF"/><stop offset="1" stop-color="#38E8D8"/></linearGradient></defs>
-            <path d="M14 44V20l9 12 9-12v24" fill="none" stroke="url(#fg)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="46" cy="24" r="5" fill="url(#fg)"/>
-          </svg>
-          <span>Morris <span style="color:var(--brand-400)">&amp;</span> Opazo</span>
-        </div>
+        <a href="/" class="brand" aria-label="Morris & Opazo — inicio">
+          <img src="/img/logo-morrisopazo.png" alt="Morris & Opazo" width="531" height="77" class="footer__logo" decoding="async" loading="lazy" />
+        </a>
         <p class="footer__desc muted">{site.descriptor}</p>
+        <div class="footer__badges">
+          <img src="/img/partner-home.png" alt="AWS Premier Tier Services Partner" width="216" height="216" class="footer__badge" decoding="async" loading="lazy" />
+          <img src="/img/aws-winner.png" alt="AWS Partner of the Year — Winner 2025" width="476" height="373" class="footer__badge footer__badge--wide" decoding="async" loading="lazy" />
+        </div>
         <div class="footer__social">
           <a href={site.social.linkedin} aria-label="LinkedIn" target="_blank" rel="noopener">Linkedin</a>
           <a href={site.social.instagram} aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
@@ -47,7 +46,7 @@ import { site, services, industries } from '../data/site';
 
     <div class="footer__bottom">
       <span class="footer__legal">{site.legal}</span>
-      <span class="footer__partner">PARTNER OFICIAL <strong>AWS</strong></span>
+      <span class="footer__partner">AWS PREMIER TIER SERVICES <strong>PARTNER</strong></span>
     </div>
   </div>
 </footer>
@@ -55,8 +54,12 @@ import { site, services, industries } from '../data/site';
 <style>
   .footer { border-top: 1px solid var(--line); padding-block: clamp(3.5rem, 7vw, 6rem) 2rem; background: var(--ink-2); }
   .footer__top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; }
-  .brand { display: inline-flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+  .brand { display: inline-flex; align-items: center; }
+  .footer__logo { height: 26px; width: auto; display: block; }
   .footer__desc { margin-top: 1rem; max-width: 34ch; font-size: 0.95rem; }
+  .footer__badges { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.5rem; }
+  .footer__badge { height: 84px; width: auto; display: block; }
+  .footer__badge--wide { height: 96px; }
   .footer__social { display: flex; gap: 1rem; margin-top: 1.5rem; }
   .footer__social a { font-size: 0.9rem; color: var(--muted); transition: color 0.2s var(--ease); }
   .footer__social a:hover { color: var(--brand-400); }
