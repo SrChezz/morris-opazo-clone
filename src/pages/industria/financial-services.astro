@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import Reveal from '../../components/Reveal.astro';
+
+const challenges = [
+  { title: 'Presión fintech', desc: 'Compita con nuevos actores digitales entregando experiencias financieras ágiles y modernas.' },
+  { title: 'Cumplimiento regulatorio', desc: 'Opere con trazabilidad, controles y auditoría continua sobre una nube certificada.' },
+  { title: 'Seguridad de datos', desc: 'Proteja información sensible con cifrado, gestión de identidades y defensa en capas.' },
+  { title: 'Escala y disponibilidad', desc: 'Sostenga picos de transacciones sin interrupciones ni sobrecostos de infraestructura.' },
+];
+
+const soluciones = [
+  { title: 'Core moderno', desc: 'Modernización de sistemas críticos hacia arquitecturas seguras y escalables en AWS.' },
+  { title: 'Detección de fraude', desc: 'Modelos de ML que identifican patrones anómalos y riesgo en tiempo real.' },
+  { title: 'Analítica financiera', desc: 'Plataformas de datos que unifican fuentes y aceleran la toma de decisiones.' },
+];
+---
+
+<BaseLayout
+  title="Financial Services — Morris & Opazo"
+  description="Reinvente sus finanzas con AWS: modernice operaciones críticas con la máxima seguridad y cumplimiento para el sector financiero de Latinoamérica."
+>
+  <Header />
+  <main id="content">
+    <section class="hero container">
+      <Reveal as="p" class="eyebrow">Financial Services</Reveal>
+      <Reveal as="h1" class="hero__title" delay={1}>
+        Reinvente el futuro de sus <span class="gradient-text">finanzas</span> hoy
+      </Reveal>
+      <Reveal as="p" class="hero__lead muted" delay={2}>
+        El sector financiero en LATAM enfrenta transformaciones profundas por fintechs,
+        regulaciones y demandas digitales. Modernice sus operaciones con la máxima seguridad
+        en la nube.
+      </Reveal>
+      <Reveal class="hero__cta" delay={3}>
+        <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+      </Reveal>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal as="p" class="eyebrow">Desafíos del sector</Reveal>
+      <Reveal as="h2" class="h2 block__title" delay={1}>Los retos que resolvemos con usted</Reveal>
+      <ul class="grid grid--2" role="list">
+        {challenges.map((c, i) => (
+          <Reveal as="li" class="card cell" delay={(i % 2) as 0 | 1}>
+            <h3 class="h3">{c.title}</h3>
+            <p class="muted">{c.desc}</p>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal as="p" class="eyebrow">Soluciones</Reveal>
+      <Reveal as="h2" class="h2 block__title" delay={1}>Cómo lo hacemos sobre AWS</Reveal>
+      <ul class="grid grid--3" role="list">
+        {soluciones.map((s, i) => (
+          <Reveal as="li" class="card cell" delay={(i % 3) as 0 | 1 | 2}>
+            <h3 class="h3">{s.title}</h3>
+            <p class="muted">{s.desc}</p>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal class="card teaser">
+        <div>
+          <p class="eyebrow">Customer stories</p>
+          <h2 class="h3 teaser__title">Confianza y seguridad, comprobadas</h2>
+          <p class="muted teaser__desc">
+            Instituciones financieras que modernizaron sus operaciones y su analítica con
+            Morris &amp; Opazo y AWS, sin comprometer seguridad ni cumplimiento.
+          </p>
+        </div>
+        <Button href="/casos" variant="ghost">Ver casos de éxito</Button>
+      </Reveal>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal class="cta">
+        <h2 class="h2 cta__title">El siguiente paso comienza aquí.</h2>
+        <p class="muted cta__desc">
+          Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un equipo
+          que combina estrategia, innovación y excelencia técnica.
+        </p>
+        <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+      </Reveal>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(4rem, 9vw, 7rem) clamp(2rem, 4vw, 3rem); max-width: 900px; }
+  .hero__title { font-size: var(--fs-display); letter-spacing: -0.03em; margin-top: 1.25rem; }
+  .hero__lead { margin-top: 1.5rem; max-width: 62ch; }
+  .hero__cta { margin-top: 2.25rem; }
+
+  .block__title { margin-top: 1rem; margin-bottom: 2.5rem; max-width: 20ch; }
+
+  .grid { display: grid; gap: 1.25rem; }
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .cell { padding: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .cell h3 { color: var(--paper); }
+  .cell p { font-size: 0.95rem; }
+
+  .teaser {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; padding: clamp(1.75rem, 4vw, 2.75rem); flex-wrap: wrap;
+  }
+  .teaser__title { margin-top: 0.75rem; color: var(--paper); }
+  .teaser__desc { margin-top: 0.75rem; max-width: 60ch; }
+
+  .cta { text-align: center; max-width: 720px; margin-inline: auto; }
+  .cta__title { max-width: 18ch; margin-inline: auto; }
+  .cta__desc { margin: 1.25rem auto 2rem; max-width: 56ch; }
+
+  @media (max-width: 860px) { .grid--2, .grid--3 { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,186 @@
+---
+// Blog — listado estático generado desde la colección de contenido.
+// Approach B: portadas optimizadas con <Image /> de astro:assets.
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Reveal from '../../components/Reveal.astro';
+
+// Solo publicados, ordenados de más reciente a más antiguo.
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const dateFmt = new Intl.DateTimeFormat('es-CL', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout
+  title="Blog — Morris & Opazo"
+  description="Ideas, casos y aprendizajes sobre transformación cloud, Gen AI, IoT y modernización sobre AWS. El partner que entiende tu industria."
+>
+  <Header />
+  <main id="content">
+    <section class="section blog" aria-labelledby="blog-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">Blog</p>
+          <h1 class="h2 blog__title">
+            Ideas que <span class="gradient-text">transforman</span> negocios.
+          </h1>
+          <p class="muted blog__lead">
+            Casos reales, criterios de arquitectura y aprendizajes de nuestros proyectos
+            cloud sobre AWS.
+          </p>
+        </Reveal>
+
+        <ul class="blog__grid" role="list">
+          {posts.map((post, i) => (
+            <Reveal as="li" delay={((i % 3) + 1) as 1 | 2 | 3} class="blog__item">
+              <a class="card post" href={`/blog/${post.slug}/`}>
+                <span class="post__accent" aria-hidden="true"></span>
+                <div class="post__media">
+                  <Image
+                    src={post.data.cover}
+                    alt={post.data.coverAlt}
+                    widths={[400, 600, 800]}
+                    sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 380px"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    class="post__img"
+                  />
+                </div>
+                <div class="post__body">
+                  <div class="post__meta">
+                    <span class="post__tag">{post.data.tag}</span>
+                    <time class="post__date" datetime={post.data.pubDate.toISOString()}>
+                      {dateFmt.format(post.data.pubDate)}
+                    </time>
+                  </div>
+                  <h2 class="h3 post__heading">{post.data.title}</h2>
+                  <p class="muted post__desc">{post.data.description}</p>
+                  <span class="post__more">
+                    Leer más
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .blog__title { max-width: 16ch; margin-top: 0.75rem; }
+  .blog__lead { max-width: 52ch; margin-top: 1rem; font-size: var(--fs-body); }
+
+  .blog__grid {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .blog__item { display: flex; }
+
+  .post {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* gradiente superior revelado en hover (mismo lenguaje que Customer Stories) */
+  .post__accent {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--grad-flow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+    z-index: 1;
+  }
+  .post:hover .post__accent,
+  .post:focus-visible .post__accent { transform: scaleX(1); }
+
+  .post__media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-3);
+  }
+  .post__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .post:hover .post__img { transform: scale(1.04); }
+
+  .post__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    flex: 1;
+  }
+
+  .post__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .post__tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brand-400);
+    padding: 0.3em 0.7em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .post__date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted-2);
+  }
+
+  .post__heading { color: var(--paper); letter-spacing: -0.015em; line-height: 1.25; }
+  .post__desc { font-size: 0.95rem; line-height: 1.6; }
+
+  .post__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--brand-400);
+  }
+  .post__more svg { transition: transform 0.25s var(--ease); }
+  .post:hover .post__more svg,
+  .post:focus-visible .post__more svg { transform: translateX(4px); }
+
+  @media (max-width: 960px) {
+    .blog__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 620px) {
+    .blog__grid { grid-template-columns: 1fr; }
+  }
+</style>

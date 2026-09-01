@@ -1,0 +1,203 @@
+---
+// Página de post — una ruta estática por artículo (getStaticPaths).
+// La portada es el elemento LCP: eager + fetchpriority alto (ver performance.md).
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+type Props = { post: CollectionEntry<'blog'> };
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const dateFmt = new Intl.DateTimeFormat('es-CL', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} — Blog Morris & Opazo`} description={post.data.description}>
+  <Header />
+  <main id="content">
+    <article class="section article">
+      <div class="container article__container">
+        <a href="/blog" class="article__back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 8H3M7 12 3 8l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Volver al blog
+        </a>
+
+        <header class="article__header">
+          <div class="article__meta">
+            <span class="article__tag">{post.data.tag}</span>
+            <time class="article__date" datetime={post.data.pubDate.toISOString()}>
+              {dateFmt.format(post.data.pubDate)}
+            </time>
+          </div>
+          <h1 class="article__title">{post.data.title}</h1>
+          <p class="muted article__desc">{post.data.description}</p>
+          <p class="article__author">Por {post.data.author}</p>
+        </header>
+
+        <figure class="article__cover">
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt}
+            widths={[600, 900, 1200]}
+            sizes="(max-width: 820px) 100vw, 760px"
+            loading="eager"
+            fetchpriority="high"
+            class="article__cover-img"
+          />
+        </figure>
+
+        <div class="article__prose">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .article__container { max-width: 820px; }
+
+  .article__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    transition: color 0.2s var(--ease);
+  }
+  .article__back:hover { color: var(--brand-400); }
+  .article__back svg { transition: transform 0.25s var(--ease); }
+  .article__back:hover svg { transform: translateX(-3px); }
+
+  .article__header { margin-top: 2rem; }
+  .article__meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .article__tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brand-400);
+    padding: 0.3em 0.7em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .article__date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted-2);
+  }
+
+  .article__title {
+    margin-top: 1rem;
+    font-size: var(--fs-h2);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .article__desc { margin-top: 1rem; font-size: var(--fs-body); max-width: 60ch; }
+  .article__author {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--muted-2);
+  }
+
+  .article__cover {
+    margin: clamp(2rem, 4vw, 3rem) 0;
+    border-radius: var(--r-card);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 16 / 9;
+    background: var(--ink-3);
+  }
+  .article__cover-img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Prosa del artículo — estilos scoped aplicados al HTML de Markdown vía :global */
+  .article__prose { font-size: var(--fs-body); line-height: 1.7; color: var(--paper); }
+  .article__prose :global(> * + *) { margin-top: 1.25rem; }
+
+  .article__prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-top: 2.5rem;
+    color: var(--paper);
+  }
+  .article__prose :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    color: var(--paper);
+  }
+  .article__prose :global(p) { color: var(--muted); max-width: 65ch; }
+  .article__prose :global(strong) { color: var(--paper); font-weight: 600; }
+  .article__prose :global(a) { color: var(--brand-400); text-decoration: underline; text-underline-offset: 3px; }
+  .article__prose :global(a:hover) { color: var(--paper); }
+
+  .article__prose :global(ul),
+  .article__prose :global(ol) { padding-left: 1.25rem; max-width: 65ch; color: var(--muted); }
+  .article__prose :global(ul) { list-style: none; }
+  .article__prose :global(ul li) { position: relative; padding-left: 1.25rem; }
+  .article__prose :global(ul li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--brand-400);
+  }
+  .article__prose :global(li + li) { margin-top: 0.5rem; }
+
+  .article__prose :global(blockquote) {
+    border-left: 2px solid var(--brand);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin-left: 0;
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .article__prose :global(blockquote p) { color: inherit; max-width: none; }
+
+  .article__prose :global(img) {
+    border-radius: var(--r-card);
+    border: 1px solid var(--line);
+  }
+
+  .article__prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 0.1em 0.4em;
+    border-radius: 6px;
+  }
+</style>

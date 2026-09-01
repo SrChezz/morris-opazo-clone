@@ -1,0 +1,66 @@
+# Decap CMS — configuración del panel /admin
+# Escribe Markdown directamente al repo Git (commits) que dispara el rebuild en Vercel.
+
+backend:
+  name: github
+  repo: SrChezz/morris-opazo-clone
+  branch: main
+  # base_url apunta al proxy OAuth (función serverless en Vercel).
+  # Reemplaza por tu dominio si usas otro. Ver api/auth.js y api/callback.js.
+  base_url: https://morris-opazo-clone.vercel.app
+  auth_endpoint: /api/auth
+
+# Permite editar en local con `npx decap-server` sin GitHub (dev only).
+local_backend: true
+
+# Idioma del editor
+locale: es
+
+# Carpeta de medios: coincide con src/assets/blog para que cover: image() resuelva.
+media_folder: "src/assets/blog"
+# public_folder no aplica (Astro procesa las imágenes en build), pero Decap lo exige.
+public_folder: "../../assets/blog"
+
+collections:
+  # ---- BLOG ----
+  - name: "blog"
+    label: "Blog"
+    label_singular: "Artículo"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    media_folder: "/src/assets/blog"
+    public_folder: "../../assets/blog"
+    fields:
+      - { name: "title", label: "Título", widget: "string" }
+      - { name: "description", label: "Descripción", widget: "text" }
+      - { name: "pubDate", label: "Fecha de publicación", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - name: "tag"
+        label: "Categoría"
+        widget: "select"
+        options: ["Healthcare", "IoT", "Government", "Data", "Gen AI", "Machine Learning"]
+      - { name: "cover", label: "Imagen de portada", widget: "image" }
+      - { name: "coverAlt", label: "Texto alternativo de la portada", widget: "string" }
+      - { name: "author", label: "Autor", widget: "string", default: "Equipo Morris & Opazo", required: false }
+      - { name: "draft", label: "Borrador (oculto del sitio)", widget: "boolean", default: false, required: false }
+      - { name: "body", label: "Contenido", widget: "markdown" }
+
+  # ---- CASOS DE ÉXITO ----
+  - name: "casos"
+    label: "Casos de éxito"
+    label_singular: "Caso de éxito"
+    folder: "src/content/casos"
+    create: true
+    slug: "{{slug}}"
+    media_folder: "/src/assets/blog"
+    public_folder: "../../assets/blog"
+    fields:
+      - { name: "title", label: "Título", widget: "string" }
+      - { name: "description", label: "Descripción", widget: "text" }
+      - { name: "pubDate", label: "Fecha de publicación", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: "industry", label: "Industria", widget: "string" }
+      - { name: "client", label: "Cliente", widget: "string", required: false }
+      - { name: "cover", label: "Imagen de portada", widget: "image" }
+      - { name: "coverAlt", label: "Texto alternativo de la portada", widget: "string" }
+      - { name: "draft", label: "Borrador (oculto del sitio)", widget: "boolean", default: false, required: false }
+      - { name: "body", label: "Contenido", widget: "markdown" }

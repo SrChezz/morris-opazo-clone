@@ -1,0 +1,204 @@
+---
+// Servicio — Application Modernization. Self-contained. Reusa layout/header/footer/reveal + tokens.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import Reveal from '../../components/Reveal.astro';
+
+const expertise = [
+  {
+    title: 'Desacople de monolitos',
+    desc: 'Separamos sistemas legados en servicios independientes, sin frenar tu operación durante la transición.',
+  },
+  {
+    title: 'Serverless y contenedores',
+    desc: 'Rediseñamos sobre AWS Lambda, ECS y EKS para que pagues solo por lo que usas y escales sin límites.',
+  },
+  {
+    title: 'CI/CD y automatización',
+    desc: 'Pipelines de entrega continua que reducen el riesgo de cada release y aceleran tu ritmo de innovación.',
+  },
+  {
+    title: 'Observabilidad de extremo a extremo',
+    desc: 'Monitoreo, trazas y alertas para que sepas qué pasa en producción antes que tus usuarios.',
+  },
+];
+
+const soluciones = [
+  {
+    title: 'Refactorización de aplicaciones',
+    desc: 'Modernizamos el código y la arquitectura para reducir deuda técnica y costos de mantenimiento.',
+  },
+  {
+    title: 'Migración a microservicios',
+    desc: 'Del monolito a servicios desacoplados que evolucionan de forma independiente y segura.',
+  },
+  {
+    title: 'Contenerización',
+    desc: 'Empaquetamos tus cargas en contenedores portables listos para orquestarse en AWS.',
+  },
+];
+---
+
+<BaseLayout
+  title="Application Modernization — Morris & Opazo | Partner AWS"
+  description="Modernice sus aplicaciones legadas con un partner estratégico experto en AWS: agilidad, menores costos y escalabilidad sin límites."
+>
+  <Header />
+  <main id="content">
+    <section class="section svc-hero" aria-labelledby="svc-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">Application Modernization</p>
+          <h1 class="h2 svc-hero__title">
+            Lleve sus aplicaciones al <span class="gradient-text">futuro</span> con AWS
+          </h1>
+          <p class="muted svc-hero__lead">
+            Las empresas en Latinoamérica operan sistemas legados que frenan su crecimiento
+            y capacidad de innovar. Modernice sus aplicaciones con un partner estratégico
+            experto en AWS para lograr agilidad, reducir costos y escalar sin límites.
+          </p>
+          <div class="svc-hero__cta">
+            <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="section below-fold" aria-labelledby="exp-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">Nuestra expertise</p>
+          <h2 id="exp-title" class="h3 sec-title">Cómo modernizamos sin frenar tu operación.</h2>
+        </Reveal>
+        <ul class="grid grid--exp" role="list">
+          {expertise.map((e, i) => (
+            <Reveal as="li" delay={((i % 4) + 1) as 1 | 2 | 3 | 4} class="grid__item">
+              <div class="card feat">
+                <span class="feat__num">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="feat__title">{e.title}</h3>
+                <p class="muted feat__desc">{e.desc}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section below-fold sec-alt" aria-labelledby="sol-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">Soluciones</p>
+          <h2 id="sol-title" class="h3 sec-title">Lo que construimos contigo.</h2>
+        </Reveal>
+        <ul class="grid grid--sol" role="list">
+          {soluciones.map((s, i) => (
+            <Reveal as="li" delay={((i % 3) + 1) as 1 | 2 | 3} class="grid__item">
+              <div class="card sol">
+                <span class="sol__accent" aria-hidden="true"></span>
+                <h3 class="feat__title">{s.title}</h3>
+                <p class="muted feat__desc">{s.desc}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section below-fold" aria-labelledby="casos-title">
+      <div class="container">
+        <Reveal class="casos">
+          <div class="casos__text">
+            <p class="eyebrow">Casos de éxito</p>
+            <h2 id="casos-title" class="h3 casos__title">
+              Modernización con impacto real, medido en producción.
+            </h2>
+            <p class="muted">
+              Organizaciones que migraron y modernizaron sobre AWS al primer intento, con el
+              100% en productivo. Conoce sus historias.
+            </p>
+          </div>
+          <a class="casos__link" href="/casos">
+            Ver casos de éxito
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="section below-fold svc-cta" aria-labelledby="cta-title">
+      <div class="container">
+        <Reveal class="svc-cta__inner">
+          <p class="eyebrow">Da el siguiente paso</p>
+          <h2 id="cta-title" class="h2 svc-cta__title">
+            Convierte tus sistemas legados en una ventaja
+            <span class="gradient-text">competitiva</span>.
+          </h2>
+          <p class="muted svc-cta__lead">
+            Hablemos de tu próximo gran proyecto con un equipo que combina estrategia,
+            innovación y excelencia técnica.
+          </p>
+          <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+        </Reveal>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .svc-hero { padding-bottom: clamp(2.5rem, 5vw, 4rem); position: relative; }
+  .svc-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: var(--grad-soft); pointer-events: none;
+  }
+  .svc-hero__title { max-width: 18ch; margin-top: 0.75rem; }
+  .svc-hero__lead { max-width: 60ch; margin-top: 1.25rem; }
+  .svc-hero__cta { margin-top: 2rem; }
+
+  .sec-title { margin-top: 0.6rem; max-width: 30ch; }
+  .sec-alt { background: var(--ink-2); border-block: 1px solid var(--line); }
+
+  .grid { margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: 1.5rem; }
+  .grid--exp { grid-template-columns: repeat(4, 1fr); }
+  .grid--sol { grid-template-columns: repeat(3, 1fr); }
+  .grid__item { display: flex; }
+
+  .feat { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; height: 100%; }
+  .feat__num { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.12em; color: var(--brand-400); }
+  .feat__title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.015em; color: var(--paper); }
+  .feat__desc { font-size: 0.925rem; line-height: 1.6; }
+
+  .sol { position: relative; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; height: 100%; overflow: hidden; }
+  .sol__accent { position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--grad-flow); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease); }
+  .sol:hover .sol__accent { transform: scaleX(1); }
+
+  .casos {
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    flex-wrap: wrap; padding: clamp(1.75rem, 4vw, 2.5rem);
+    background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r-card);
+  }
+  .casos__text { max-width: 52ch; display: grid; gap: 0.6rem; }
+  .casos__title { color: var(--paper); }
+  .casos__link { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--brand-400); white-space: nowrap; }
+  .casos__link svg { transition: transform 0.25s var(--ease); }
+  .casos__link:hover svg { transform: translateX(4px); }
+
+  .svc-cta__inner {
+    background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r-card);
+    padding: clamp(2rem, 5vw, 4rem); text-align: center; display: grid; justify-items: center; gap: 1.1rem;
+  }
+  .svc-cta__title { max-width: 22ch; }
+  .svc-cta__lead { max-width: 56ch; }
+
+  @media (max-width: 960px) {
+    .grid--exp { grid-template-columns: repeat(2, 1fr); }
+    .grid--sol { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .grid--exp { grid-template-columns: 1fr; }
+  }
+</style>

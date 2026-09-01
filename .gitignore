@@ -3,6 +3,9 @@ dist/
 .output/
 .vercel/
 
+# site crawl / scrape working folder (not committed)
+.scrape/
+
 # deps
 node_modules/
 

@@ -1,0 +1,155 @@
+---
+// Servicios — índice. Grid de los 6 servicios desde site.ts, cada uno enlaza a
+// /servicio/<slug de ruta>. Reusa BaseLayout + Header + Footer + Reveal + tokens.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import Reveal from '../../components/Reveal.astro';
+import { services } from '../../data/site';
+
+// Los slugs de ruta difieren de los de site.ts en dos casos (ver BUILD_SPEC).
+const routeSlug: Record<string, string> = {
+  'application-modernization': 'application-modernization',
+  'cloud-migration': 'cloud-migrations',
+  'data-analytics': 'data-analytics',
+  'gen-ai': 'gen-ai',
+  'ai-machine-learning': 'ia-machine-learning',
+  'internet-of-things': 'internet-of-things',
+};
+---
+
+<BaseLayout
+  title="Servicios — Morris & Opazo | Partner AWS"
+  description="Donde la estrategia se encuentra con la tecnología. Modernización de aplicaciones, migración cloud, Data & Analytics, Gen AI, Machine Learning e IoT sobre AWS."
+>
+  <Header />
+  <main id="content">
+    <!-- Hero -->
+    <section class="section svc-hero" aria-labelledby="svc-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">El partner que entiende tu industria</p>
+          <h1 class="h2 svc-hero__title">
+            Donde la estrategia se encuentra con la
+            <span class="gradient-text">tecnología</span>.
+          </h1>
+          <p class="muted svc-hero__lead">
+            Acompañamos a las industrias más exigentes de América Latina a sacar el máximo
+            provecho de AWS en cada etapa del camino. Elige un servicio para conocer cómo
+            lo hacemos realidad.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    <!-- Grid de servicios -->
+    <section class="section below-fold svc-grid-wrap" aria-labelledby="svc-list-title">
+      <div class="container">
+        <Reveal>
+          <p class="eyebrow">Acompañamiento 360°</p>
+          <h2 id="svc-list-title" class="h3 svc-grid-wrap__title">
+            Seis capacidades, un solo partner estratégico.
+          </h2>
+        </Reveal>
+
+        <ul class="svc-grid" role="list">
+          {services.map((s, i) => (
+            <Reveal as="li" delay={((i % 3) + 1) as 1 | 2 | 3} class="svc-item">
+              <a class="card svc-card" href={`/servicio/${routeSlug[s.slug]}`}>
+                <span class="svc-card__accent" aria-hidden="true"></span>
+                <span class="svc-card__num">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="h3 svc-card__title">{s.title}</h3>
+                <p class="muted svc-card__desc">{s.desc}</p>
+                <span class="svc-card__more">
+                  Ver servicio
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA de cierre -->
+    <section class="section below-fold svc-cta" aria-labelledby="svc-cta-title">
+      <div class="container">
+        <Reveal class="svc-cta__inner">
+          <p class="eyebrow">Da el siguiente paso</p>
+          <h2 id="svc-cta-title" class="h2 svc-cta__title">
+            El siguiente paso en la transformación de tu empresa comienza
+            <span class="gradient-text">aquí</span>.
+          </h2>
+          <p class="muted svc-cta__lead">
+            Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un
+            equipo que combina estrategia, innovación y excelencia técnica.
+          </p>
+          <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+        </Reveal>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .svc-hero { padding-bottom: clamp(2.5rem, 5vw, 4rem); position: relative; }
+  .svc-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: var(--grad-soft); pointer-events: none;
+  }
+  .svc-hero__title { max-width: 20ch; margin-top: 0.75rem; }
+  .svc-hero__lead { max-width: 58ch; margin-top: 1.25rem; }
+
+  /* Grid */
+  .svc-grid-wrap { padding-top: clamp(2rem, 4vw, 3rem); }
+  .svc-grid-wrap__title { margin-top: 0.6rem; max-width: 26ch; }
+  .svc-grid {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid; gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .svc-item { display: flex; }
+
+  .svc-card {
+    position: relative; display: flex; flex-direction: column;
+    gap: 0.75rem; padding: 1.75rem; height: 100%; overflow: hidden;
+  }
+  .svc-card__accent {
+    position: absolute; inset: 0 0 auto 0; height: 2px;
+    background: var(--grad-flow); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .svc-card:hover .svc-card__accent,
+  .svc-card:focus-visible .svc-card__accent { transform: scaleX(1); }
+  .svc-card__num {
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.12em;
+    color: var(--brand-400);
+  }
+  .svc-card__title { color: var(--paper); line-height: 1.2; }
+  .svc-card__desc { font-size: 0.95rem; line-height: 1.6; }
+  .svc-card__more {
+    margin-top: auto; padding-top: 0.5rem; display: inline-flex; align-items: center;
+    gap: 0.5rem; font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+    color: var(--brand-400);
+  }
+  .svc-card__more svg { transition: transform 0.25s var(--ease); }
+  .svc-card:hover .svc-card__more svg,
+  .svc-card:focus-visible .svc-card__more svg { transform: translateX(4px); }
+
+  /* CTA */
+  .svc-cta__inner {
+    background: var(--ink-2); border: 1px solid var(--line);
+    border-radius: var(--r-card); padding: clamp(2rem, 5vw, 4rem);
+    text-align: center; display: grid; justify-items: center; gap: 1.1rem;
+  }
+  .svc-cta__title { max-width: 22ch; }
+  .svc-cta__lead { max-width: 56ch; }
+
+  @media (max-width: 960px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .svc-grid { grid-template-columns: 1fr; } }
+</style>

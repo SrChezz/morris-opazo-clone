@@ -23,23 +23,23 @@ import { site, services, industries } from '../data/site';
 
       <nav class="footer__col" aria-label="Soluciones">
         <h3 class="eyebrow">Soluciones</h3>
-        <ul>{services.map((s) => <li><a href="#servicios">{s.title}</a></li>)}</ul>
+        <ul>{services.map((s) => <li><a href="/servicio">{s.title}</a></li>)}</ul>
       </nav>
 
       <nav class="footer__col" aria-label="Industrias">
         <h3 class="eyebrow">Industrias</h3>
-        <ul>{industries.map((i) => <li><a href="#industrias">{i}</a></li>)}</ul>
+        <ul>{industries.map((i) => <li><a href="/industria">{i}</a></li>)}</ul>
       </nav>
 
       <nav class="footer__col" aria-label="Compañía">
         <h3 class="eyebrow">Compañía</h3>
         <ul>
           <li><a href="/nosotros">Nosotros</a></li>
-          <li><a href="#casos">Casos de éxito</a></li>
+          <li><a href="/casos">Casos de éxito</a></li>
           <li><a href="/blog">Blog</a></li>
           <li><a href="/startup">Startup</a></li>
           <li><a href="/talento">Talento</a></li>
-          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="/contacto">Contacto</a></li>
         </ul>
       </nav>
     </div>

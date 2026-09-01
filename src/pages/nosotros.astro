@@ -1,0 +1,216 @@
+---
+// /nosotros — company page. Reuses BaseLayout + Header + Footer + Button + Reveal
+// and design tokens from global.css. Zero client JS frameworks.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+import Reveal from '../components/Reveal.astro';
+
+const stats = [
+  { value: '6', label: 'Países con presencia y equipos propios' },
+  { value: '300+', label: 'Profesionales certificados' },
+  { value: '+21', label: 'Años transformando negocios' },
+  { value: '+1K', label: 'Proyectos desarrollados' },
+];
+
+const differentiators = [
+  {
+    title: 'El negocio primero, la tecnología después',
+    desc: 'No partimos de la herramienta, partimos de tu objetivo de negocio. La arquitectura es una consecuencia, no el punto de partida.',
+  },
+  {
+    title: 'Un partner que entiende tu industria',
+    desc: 'Energía, salud, finanzas, retail y sector público: llevamos el contexto de cada industria a cada decisión técnica.',
+  },
+  {
+    title: 'Excelencia AWS certificada',
+    desc: 'Equipos internos certificados y una metodología probada en cientos de proyectos productivos desde el primer intento.',
+  },
+];
+---
+
+<BaseLayout
+  title="Nosotros — Morris & Opazo"
+  description="20 años convirtiendo tecnología en resultados de negocio. Acompañamos a las industrias más exigentes de América Latina a crecer sin que la tecnología sea el freno."
+>
+  <Header />
+  <main id="content">
+    <!-- Hero -->
+    <section class="section hero">
+      <div class="container">
+        <Reveal class="hero__inner">
+          <p class="eyebrow">Nosotros</p>
+          <h1 class="hero__title">
+            20 años convirtiendo tecnología en <span class="gradient-text">resultados</span>
+          </h1>
+          <p class="hero__lead muted">
+            Acompañamos a las industrias más exigentes de América Latina a crecer sin que la
+            tecnología sea el freno. Estrategia, innovación y excelencia técnica en cada etapa
+            del camino.
+          </p>
+          <div class="hero__cta">
+            <Button href="/#contacto" variant="primary">Solicite una asesoría sin costo</Button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <!-- Stats grid -->
+    <section class="section below-fold stats">
+      <div class="container">
+        <Reveal class="stats__head">
+          <p class="eyebrow">Morris &amp; Opazo en números</p>
+          <h2 class="h2">Escala regional, foco en tu negocio</h2>
+        </Reveal>
+        <ul class="stats__grid" role="list">
+          {
+            stats.map((s, i) => (
+              <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
+                <article class="card stat">
+                  <span class="stat__value gradient-text">{s.value}</span>
+                  <span class="stat__label muted">{s.label}</span>
+                </article>
+              </Reveal>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Differentiators -->
+    <section class="section below-fold points">
+      <div class="container">
+        <Reveal class="points__head">
+          <p class="eyebrow">Por qué somos diferentes</p>
+          <h2 class="h2">Ponemos el negocio del cliente primero</h2>
+        </Reveal>
+        <ul class="points__grid" role="list">
+          {
+            differentiators.map((d, i) => (
+              <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
+                <article class="card point">
+                  <h3 class="h3 point__title">{d.title}</h3>
+                  <p class="muted point__desc">{d.desc}</p>
+                  <span class="point__line" aria-hidden="true" />
+                </article>
+              </Reveal>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="section below-fold cta">
+      <div class="container">
+        <Reveal class="card cta__card">
+          <p class="eyebrow">Conversemos</p>
+          <h2 class="h2 cta__title">
+            El siguiente paso en la transformación de tu empresa comienza <span class="gradient-text">aquí</span>
+          </h2>
+          <p class="cta__lead muted">
+            Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un equipo que
+            combina estrategia, innovación y excelencia técnica.
+          </p>
+          <Button href="/#contacto" variant="primary">Solicite una asesoría sin costo</Button>
+        </Reveal>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero { padding-block: clamp(6rem, 12vw, 10rem) clamp(3rem, 6vw, 5rem); }
+  .hero__inner { max-width: 60ch; }
+  .hero__title {
+    font-size: var(--fs-display);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-top: 1rem;
+  }
+  .hero__lead { max-width: 62ch; margin-top: 1.5rem; font-size: var(--fs-h3); font-family: var(--font-body); }
+  .hero__cta { margin-top: 2.5rem; }
+
+  /* Stats */
+  .stats__head { max-width: 40ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .stats__head .h2 { margin-top: 0.75rem; }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+  }
+  .stat__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat__label { font-size: 0.95rem; line-height: 1.4; }
+
+  /* Points */
+  .points__head { max-width: 42ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .points__head .h2 { margin-top: 0.75rem; }
+  .points__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+  }
+  .point {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    overflow: hidden;
+  }
+  .point__title { font-weight: 500; letter-spacing: -0.01em; margin: 0 0 0.6rem; }
+  .point__desc { margin: 0; line-height: 1.6; }
+  .point__line { margin-top: auto; padding-top: 1.5rem; display: block; height: 2px; width: 100%; }
+  .point__line::after {
+    content: '';
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad-flow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .point:hover .point__line::after { transform: scaleX(1); }
+
+  /* Closing CTA */
+  .cta__card {
+    text-align: center;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    background: var(--ink-2);
+    background-image: var(--grad-soft);
+  }
+  .cta__title { margin: 0.75rem auto 1.25rem; max-width: 22ch; }
+  .cta__lead { max-width: 60ch; margin: 0 auto 2rem; }
+
+  @media (max-width: 900px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); }
+    .points__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .stats__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .point__line::after { transition: none; transform: scaleX(1); }
+  }
+</style>

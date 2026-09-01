@@ -1,0 +1,213 @@
+---
+// /startup — startup program page. Reuses BaseLayout + Header + Footer + Button + Reveal
+// and design tokens from global.css. Zero client JS frameworks.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+import Reveal from '../components/Reveal.astro';
+
+const benefits = [
+  {
+    title: 'Infraestructura de unicornio',
+    desc: 'Construye sobre la misma nube AWS que usan las startups más escalables del mundo, con arquitecturas listas para crecer.',
+  },
+  {
+    title: 'Sin el costo de hacerlo solos',
+    desc: 'Accede a créditos AWS, buenas prácticas y acompañamiento experto para estirar cada dólar de tu runway.',
+  },
+  {
+    title: 'Velocidad desde el día uno',
+    desc: 'Menos tiempo peleando con la infraestructura y más tiempo construyendo el producto que tus clientes esperan.',
+  },
+];
+
+const steps = [
+  { k: '01', title: 'Diagnóstico', desc: 'Entendemos tu producto, tu etapa y tu meta de crecimiento en LATAM.' },
+  { k: '02', title: 'Arquitectura', desc: 'Diseñamos una base cloud segura, escalable y de costo optimizado sobre AWS.' },
+  { k: '03', title: 'Aceleración', desc: 'Implementamos, medimos y escalamos contigo a medida que tu tracción crece.' },
+];
+---
+
+<BaseLayout
+  title="Startup — Morris & Opazo"
+  description="El partner que crece contigo en LATAM. Acompañamos a las startups más ambiciosas a construir sobre la infraestructura que usan los unicornios, sin el costo ni la complejidad de hacerlo solos."
+>
+  <Header />
+  <main id="content">
+    <!-- Hero -->
+    <section class="section hero">
+      <div class="container">
+        <Reveal class="hero__inner">
+          <p class="eyebrow">Startup</p>
+          <h1 class="hero__title">
+            El partner que <span class="gradient-text">crece</span> contigo en LATAM
+          </h1>
+          <p class="hero__lead muted">
+            Morris &amp; Opazo acompaña a las startups más ambiciosas de LATAM a construir sobre la
+            infraestructura que usan los unicornios — sin el costo ni la complejidad de hacerlo solos.
+          </p>
+          <div class="hero__cta">
+            <Button href="/#contacto" variant="primary">Solicite una asesoría sin costo</Button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section below-fold points">
+      <div class="container">
+        <Reveal class="points__head">
+          <p class="eyebrow">Por qué escalar con nosotros</p>
+          <h2 class="h2">La base técnica que tu tracción necesita</h2>
+        </Reveal>
+        <ul class="points__grid" role="list">
+          {
+            benefits.map((b, i) => (
+              <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
+                <article class="card point">
+                  <h3 class="h3 point__title">{b.title}</h3>
+                  <p class="muted point__desc">{b.desc}</p>
+                  <span class="point__line" aria-hidden="true" />
+                </article>
+              </Reveal>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Process steps -->
+    <section class="section below-fold steps">
+      <div class="container">
+        <Reveal class="steps__head">
+          <p class="eyebrow">Cómo trabajamos</p>
+          <h2 class="h2">De la idea a producción, paso a paso</h2>
+        </Reveal>
+        <ol class="steps__grid" role="list">
+          {
+            steps.map((s, i) => (
+              <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
+                <article class="card step">
+                  <span class="step__k" aria-hidden="true">{s.k}</span>
+                  <h3 class="h3 step__title">{s.title}</h3>
+                  <p class="muted step__desc">{s.desc}</p>
+                </article>
+              </Reveal>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="section below-fold cta">
+      <div class="container">
+        <Reveal class="card cta__card">
+          <p class="eyebrow">Conversemos</p>
+          <h2 class="h2 cta__title">
+            Impulsa tu startup con un partner que <span class="gradient-text">escala</span> contigo
+          </h2>
+          <p class="cta__lead muted">
+            Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un equipo que
+            combina estrategia, innovación y excelencia técnica.
+          </p>
+          <Button href="/#contacto" variant="primary">Solicite una asesoría sin costo</Button>
+        </Reveal>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero { padding-block: clamp(6rem, 12vw, 10rem) clamp(3rem, 6vw, 5rem); }
+  .hero__inner { max-width: 60ch; }
+  .hero__title {
+    font-size: var(--fs-display);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-top: 1rem;
+  }
+  .hero__lead { max-width: 62ch; margin-top: 1.5rem; font-size: var(--fs-h3); font-family: var(--font-body); }
+  .hero__cta { margin-top: 2.5rem; }
+
+  /* Points */
+  .points__head { max-width: 42ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .points__head .h2 { margin-top: 0.75rem; }
+  .points__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+  }
+  .point {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    overflow: hidden;
+  }
+  .point__title { font-weight: 500; letter-spacing: -0.01em; margin: 0 0 0.6rem; }
+  .point__desc { margin: 0; line-height: 1.6; }
+  .point__line { margin-top: auto; padding-top: 1.5rem; display: block; height: 2px; width: 100%; }
+  .point__line::after {
+    content: '';
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad-flow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .point:hover .point__line::after { transform: scaleX(1); }
+
+  /* Steps */
+  .steps__head { max-width: 42ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .steps__head .h2 { margin-top: 0.75rem; }
+  .steps__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+  }
+  .step__k {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    color: var(--brand-400);
+    margin-bottom: 1rem;
+  }
+  .step__title { font-weight: 500; letter-spacing: -0.01em; margin: 0 0 0.6rem; }
+  .step__desc { margin: 0; line-height: 1.6; }
+
+  /* Closing CTA */
+  .cta__card {
+    text-align: center;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    background: var(--ink-2);
+    background-image: var(--grad-soft);
+  }
+  .cta__title { margin: 0.75rem auto 1.25rem; max-width: 24ch; }
+  .cta__lead { max-width: 60ch; margin: 0 auto 2rem; }
+
+  @media (max-width: 900px) {
+    .points__grid,
+    .steps__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .point__line::after { transition: none; transform: scaleX(1); }
+  }
+</style>

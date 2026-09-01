@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import Reveal from '../../components/Reveal.astro';
+
+const challenges = [
+  { title: 'Desafíos únicos', desc: 'Cada negocio es distinto: partimos por entender el suyo antes de proponer tecnología.' },
+  { title: 'Legado que frena', desc: 'Modernizamos sistemas heredados que limitan la agilidad y el crecimiento.' },
+  { title: 'Costos bajo control', desc: 'Diseñamos arquitecturas eficientes que crecen según su demanda real.' },
+  { title: 'Innovación con datos', desc: 'Convertimos su información en decisiones, automatización e inteligencia.' },
+];
+
+const soluciones = [
+  { title: 'Arquitectura a medida', desc: 'Soluciones cloud diseñadas para sus procesos y objetivos específicos.' },
+  { title: 'Migración y modernización', desc: 'Llevamos su operación a AWS por etapas, sin frenar el negocio.' },
+  { title: 'Datos e IA aplicada', desc: 'Analítica y modelos que resuelven problemas concretos de su industria.' },
+];
+---
+
+<BaseLayout
+  title="Otras industrias — Morris & Opazo"
+  description="Sea cual sea tu industria, diseñamos soluciones cloud a la medida de tus desafíos operativos con la experiencia de un partner AWS Premier Tier."
+>
+  <Header />
+  <main id="content">
+    <section class="hero container">
+      <Reveal as="p" class="eyebrow">Otras industrias</Reveal>
+      <Reveal as="h1" class="hero__title" delay={1}>
+        Soluciones cloud a tu <span class="gradient-text">medida</span>
+      </Reveal>
+      <Reveal as="p" class="hero__lead muted" delay={2}>
+        Sea cual sea tu industria, diseñamos soluciones cloud a la medida de tus desafíos
+        operativos con la experiencia de un partner AWS Premier Tier.
+      </Reveal>
+      <Reveal class="hero__cta" delay={3}>
+        <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+      </Reveal>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal as="p" class="eyebrow">Cómo trabajamos</Reveal>
+      <Reveal as="h2" class="h2 block__title" delay={1}>Empezamos por entender su negocio</Reveal>
+      <ul class="grid grid--2" role="list">
+        {challenges.map((c, i) => (
+          <Reveal as="li" class="card cell" delay={(i % 2) as 0 | 1}>
+            <h3 class="h3">{c.title}</h3>
+            <p class="muted">{c.desc}</p>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal as="p" class="eyebrow">Soluciones</Reveal>
+      <Reveal as="h2" class="h2 block__title" delay={1}>Cómo lo hacemos sobre AWS</Reveal>
+      <ul class="grid grid--3" role="list">
+        {soluciones.map((s, i) => (
+          <Reveal as="li" class="card cell" delay={(i % 3) as 0 | 1 | 2}>
+            <h3 class="h3">{s.title}</h3>
+            <p class="muted">{s.desc}</p>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal class="card teaser">
+        <div>
+          <p class="eyebrow">Customer stories</p>
+          <h2 class="h3 teaser__title">Resultados en múltiples sectores</h2>
+          <p class="muted teaser__desc">
+            Salud, energía, sector público, datos e IoT: explore cómo Morris &amp; Opazo y AWS
+            resuelven desafíos reales en industrias muy distintas.
+          </p>
+        </div>
+        <Button href="/casos" variant="ghost">Ver casos de éxito</Button>
+      </Reveal>
+    </section>
+
+    <section class="section below-fold container">
+      <Reveal class="cta">
+        <h2 class="h2 cta__title">El siguiente paso comienza aquí.</h2>
+        <p class="muted cta__desc">
+          Convierte tus desafíos tecnológicos en oportunidades de crecimiento con un equipo
+          que combina estrategia, innovación y excelencia técnica.
+        </p>
+        <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+      </Reveal>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(4rem, 9vw, 7rem) clamp(2rem, 4vw, 3rem); max-width: 900px; }
+  .hero__title { font-size: var(--fs-display); letter-spacing: -0.03em; margin-top: 1.25rem; }
+  .hero__lead { margin-top: 1.5rem; max-width: 62ch; }
+  .hero__cta { margin-top: 2.25rem; }
+
+  .block__title { margin-top: 1rem; margin-bottom: 2.5rem; max-width: 20ch; }
+
+  .grid { display: grid; gap: 1.25rem; }
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .cell { padding: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .cell h3 { color: var(--paper); }
+  .cell p { font-size: 0.95rem; }
+
+  .teaser {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; padding: clamp(1.75rem, 4vw, 2.75rem); flex-wrap: wrap;
+  }
+  .teaser__title { margin-top: 0.75rem; color: var(--paper); }
+  .teaser__desc { margin-top: 0.75rem; max-width: 60ch; }
+
+  .cta { text-align: center; max-width: 720px; margin-inline: auto; }
+  .cta__title { max-width: 18ch; margin-inline: auto; }
+  .cta__desc { margin: 1.25rem auto 2rem; max-width: 56ch; }
+
+  @media (max-width: 860px) { .grid--2, .grid--3 { grid-template-columns: 1fr; } }
+</style>

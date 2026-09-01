@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import Reveal from '../../components/Reveal.astro';
+import { industries } from '../../data/site';
+
+// Map each industry label (from site.ts) to its route slug + short teaser.
+const slugMap: Record<string, string> = {
+  'Energy & Resources': 'energy-resources',
+  'Financial Services': 'financial-services',
+  Healthcare: 'healthcare',
+  Retail: 'retail',
+  'Transportation and Leisure': 'transportation-and-leisure',
+  Government: 'goverment',
+  'Otras industrias': 'otras-industrias',
+};
+
+const teaser: Record<string, string> = {
+  'Energy & Resources':
+    'Eficiencia, sostenibilidad y automatización para energía, recursos y empresas sanitarias.',
+  'Financial Services':
+    'Modernice sus operaciones financieras con la máxima seguridad en la nube de AWS.',
+  Healthcare:
+    'Gestione datos clínicos con seguridad y cumplimiento normativo en la nube.',
+  Retail:
+    'Omnicanalidad, control operativo y experiencias fluidas para el retail moderno.',
+  'Transportation and Leisure':
+    'Logística ágil con visibilidad en tiempo real y cadenas de valor escalables.',
+  Government:
+    'Infraestructura pública segura que transforma información en decisiones.',
+  'Otras industrias':
+    'Soluciones cloud a la medida de tus desafíos, sea cual sea tu industria.',
+};
+
+const items = industries.map((label, i) => ({
+  label,
+  slug: slugMap[label],
+  teaser: teaser[label],
+  n: String(i + 1).padStart(2, '0'),
+}));
+---
+
+<BaseLayout
+  title="Industrias — Morris & Opazo"
+  description="Diseñamos soluciones cloud a la medida de cada industria: energía, finanzas, salud, retail, transporte, sector público y más. El partner AWS que entiende tu industria."
+>
+  <Header />
+  <main id="content">
+    <!-- Hero -->
+    <section class="hero container">
+      <Reveal as="p" class="eyebrow">El partner que entiende tu industria</Reveal>
+      <Reveal as="h1" class="hero__title" delay={1}>
+        Donde la estrategia se <span class="gradient-text">encuentra</span> con la tecnología.
+      </Reveal>
+      <Reveal as="p" class="hero__lead muted" delay={2}>
+        Cada industria tiene sus propios desafíos operativos, regulatorios y de escala.
+        Diseñamos arquitecturas cloud sobre AWS pensadas para el negocio de cada sector —
+        con la experiencia de un partner que ya recorrió ese camino.
+      </Reveal>
+      <Reveal class="hero__cta" delay={3}>
+        <Button href="/#contacto">Solicite una asesoría sin costo</Button>
+      </Reveal>
+    </section>
+
+    <!-- Grid of industries -->
+    <section class="section below-fold container">
+      <ul class="grid" role="list">
+        {items.map((item, i) => (
+          <Reveal as="li" delay={(i % 4) as 0 | 1 | 2 | 3}>
+            <a class="card icard" href={`/industria/${item.slug}`}>
+              <span class="icard__n">{item.n}</span>
+              <h2 class="icard__title h3">{item.label}</h2>
+              <p class="icard__desc muted">{item.teaser}</p>
+              <span class="icard__more">
+                Ver industria
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(4rem, 9vw, 7rem) clamp(2rem, 4vw, 3rem); max-width: 900px; }
+  .hero__title { font-size: var(--fs-display); letter-spacing: -0.03em; margin-top: 1.25rem; }
+  .hero__lead { margin-top: 1.5rem; max-width: 62ch; font-size: var(--fs-body); }
+  .hero__cta { margin-top: 2.25rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .icard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.75rem;
+    height: 100%;
+  }
+  .icard__n {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.18em;
+    color: var(--muted-2);
+  }
+  .icard__title { color: var(--paper); }
+  .icard__desc { font-size: 0.95rem; }
+  .icard__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-400);
+  }
+  .icard__more svg { transition: transform 0.25s var(--ease); }
+  .icard:hover .icard__more svg { transform: translateX(3px); }
+
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
