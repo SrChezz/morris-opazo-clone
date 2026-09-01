@@ -34,12 +34,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:locale" content="es_CL" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Fonts: preconnect + subset weights, display=swap (see performance.md) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Self-hosted fonts (no third-party CDN, no render-blocking external CSS).
+         Preload the LCP-critical hero display weight; the rest load via fonts.css. -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/spacegrotesk-700-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/plusjakartasans-400-latin.woff2"
+      crossorigin
     />
   </head>
   <body>

@@ -152,8 +152,25 @@ import { nav } from '../data/site';
 
 <script>
   const header = document.getElementById('site-header');
-  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
-  onScroll();
+  // Batch the scroll read into rAF and only touch the DOM when the state
+  // actually changes — avoids layout thrash / forced reflow (Lighthouse).
+  let ticking = false;
+  let scrolled = false;
+  const applyScrollState = () => {
+    const next = window.scrollY > 8;
+    if (next !== scrolled) {
+      scrolled = next;
+      header?.classList.toggle('scrolled', scrolled);
+    }
+    ticking = false;
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(applyScrollState);
+    }
+  };
+  applyScrollState();
   window.addEventListener('scroll', onScroll, { passive: true });
 
   const burger = document.getElementById('burger');

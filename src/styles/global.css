@@ -3,6 +3,9 @@
    Tokens are the single source of truth (see .kiro/steering/design-system.md)
    ============================================================ */
 
+/* Self-hosted fonts (@font-face). Must come first. */
+@import './fonts.css';
+
 /* ---- Reset (modern, minimal) ---- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
