@@ -11,6 +11,13 @@ export interface Service {
   slug: string;
   desc: string;
   icon: string; // key for inline SVG icon
+  img: string;  // filename in src/assets/home/services
+}
+
+export interface Industry {
+  title: string;
+  slug: string;
+  img: string; // filename in src/assets/home/industries
 }
 
 export interface Stat {
@@ -25,12 +32,16 @@ export interface Testimonial {
   quote: string;
   name: string;
   role: string;
+  photo: string;   // filename in src/assets/home/testimonials
+  company: string; // company logo filename in src/assets/home/testimonials
+  companyAlt: string;
 }
 
 export interface Story {
   title: string;
   tag: string;
   href: string;
+  cover: string; // filename in src/assets/home/stories
 }
 
 export const site = {
@@ -87,37 +98,54 @@ export const services: Service[] = [
     slug: 'application-modernization',
     desc: 'Reescribimos y desacoplamos aplicaciones legadas hacia arquitecturas serverless y de contenedores, sin frenar tu operación.',
     icon: 'modernize',
+    img: 's-application.png',
   },
   {
     title: 'Cloud Migration',
-    slug: 'cloud-migration',
+    slug: 'cloud-migrations',
     desc: 'Llevamos tu infraestructura a AWS con un plan por etapas: cero sorpresas, mínima interrupción y todo productivo desde el primer intento.',
     icon: 'migrate',
+    img: 's-Cloud-Migration.png',
   },
   {
     title: 'Data & Analytics',
     slug: 'data-analytics',
     desc: 'Unificamos tus datos dispersos en una plataforma analítica que convierte el procesamiento masivo en decisiones claras.',
     icon: 'data',
+    img: 's-Data-Analytics.png',
   },
   {
     title: 'Gen AI',
     slug: 'gen-ai',
     desc: 'Diseñamos asistentes y automatizaciones con IA generativa que se integran a tus procesos y a tu cultura, no al revés.',
     icon: 'genai',
+    img: 's-Gen-Ai.png',
   },
   {
     title: 'AI & Machine Learning',
-    slug: 'ai-machine-learning',
+    slug: 'ia-machine-learning',
     desc: 'Modelos de decisión en tiempo real y de riesgo, entrenados sobre tus datos y desplegados de forma segura en AWS.',
     icon: 'ml',
+    img: 's-ML.png',
   },
   {
     title: 'Internet of Things',
     slug: 'internet-of-things',
     desc: 'Conectamos sensores y activos en terreno a la nube para monitoreo continuo, incluso en las zonas más remotas.',
     icon: 'iot',
+    img: 's-IOT.png',
   },
+];
+
+// Industrias con icono real (para el grid de la home). El orden sigue al original.
+export const industryCards: Industry[] = [
+  { title: 'Energy & Resources', slug: 'energy-resources', img: 'i-energy.png' },
+  { title: 'Financial Services', slug: 'financial-services', img: 'i-financial.png' },
+  { title: 'Healthcare', slug: 'healthcare', img: 'i-healthcare.png' },
+  { title: 'Retail', slug: 'retail', img: 'i-retail.png' },
+  { title: 'Transportation and Leisure', slug: 'transportation-and-leisure', img: 'i-transport.png' },
+  { title: 'Government', slug: 'goverment', img: 'i-goverment.png' },
+  { title: 'Otras industrias', slug: 'otras-industrias', img: 'i-other-industrias.png' },
 ];
 
 export const stats: Stat[] = [
@@ -133,18 +161,27 @@ export const testimonials: Testimonial[] = [
       'Morris & Opazo nos apoya con nuestras iniciativas de Machine Learning e IA, como la toma de decisiones en tiempo real, con gran efectividad y siempre alineados a nuestra cultura. Su equipo responde con rapidez ante cada nuevo desafío.',
     name: 'Antonio Chumioque',
     role: 'Gerencia de Analítica e Inteligencia Comercial',
+    photo: 'antoine-1.png',
+    company: 'interbank-gray.png',
+    companyAlt: 'Interbank',
   },
   {
     quote:
       'Enfrentábamos una infraestructura dispersa sin espacio para modernizar. El equipo de Morris & Opazo fue un pilar fundamental en este proceso: la organización vio el impacto real de migrar a la nube de AWS en el primer intento y con el 100% en productivo.',
     name: 'Giunelsy Noriega',
     role: 'CIO y Subgerente de Tecnología y Sistemas',
+    photo: 'Giunelsy.png',
+    company: 'grupo-aje-gray.png',
+    companyAlt: 'Grupo AJE',
   },
   {
     quote:
       'Como multinacional valoramos la metodología de trabajo de Morris & Opazo y su consultoría estratégica en la nube. Nos permitieron optimizar el procesamiento masivo de datos operacionales alcanzando nuestros objetivos con alta eficiencia.',
     name: 'Oscar Toledo',
     role: 'Gerencia de Sistemas e Infraestructura',
+    photo: 'oscar.png',
+    company: 'camara-de-la-construccion.png',
+    companyAlt: 'Cámara Chilena de la Construcción',
   },
 ];
 
@@ -153,37 +190,43 @@ export const stories: Story[] = [
     title:
       'Round Trips: más pacientes y mejor atención gracias a la transformación digital con Morris & Opazo y AWS',
     tag: 'Healthcare',
-    href: '#casos',
+    href: '/casos/round-trips-salud',
+    cover: 'round-trips.jpg',
   },
   {
     title:
       'IoT que conecta el agua de Chile: Morris & Opazo y Akotek llevan el monitoreo de plantas rurales a la nube AWS',
     tag: 'IoT · Energy',
-    href: '#casos',
+    href: '/casos/iot-akotek-agua-rural',
+    cover: 'iot-akotek.jpg',
   },
   {
     title:
       'Agua de Quito y Morris & Opazo modernizan sobre AWS el sistema que abastece a 2,7 millones de personas',
     tag: 'Government',
-    href: '#casos',
+    href: '/casos/agua-de-quito-migracion-sector-publico',
+    cover: 'agua-quito.jpg',
   },
   {
     title:
       'Bionaute acelera la investigación biotecnológica con IA avanzada en AWS',
     tag: 'Healthcare · AI',
-    href: '#casos',
+    href: '/casos/bionaute-biotecnologia-ia',
+    cover: 'bionaute.jpg',
   },
   {
     title:
-      'CChC: infraestructura invisible, impacto visible — Transformación Digital con Morris & Opazo y AWS',
+      'CChC: infraestructura invisible, impacto visible. Transformación Digital con Morris & Opazo y AWS',
     tag: 'Government',
-    href: '#casos',
+    href: '/casos/cchc-transformacion-digital',
+    cover: 'cchc.jpg',
   },
   {
     title:
       'Escalabilidad y Analítica Avanzada: cómo potenciar la toma de decisiones en grandes organizaciones',
     tag: 'Data',
-    href: '#casos',
+    href: '/casos/escalabilidad-analitica-avanzada',
+    cover: 'escalabilidad.jpg',
   },
 ];
 

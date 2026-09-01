@@ -1,0 +1,116 @@
+---
+// AWS Competencies — auto-scrolling carousel of the real competency badges.
+// Strongest proof of expertise (principle 2: evidence).
+import { Image } from 'astro:assets';
+import Reveal from '../Reveal.astro';
+
+const badgeModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/home/badges/aws-*.png',
+  { eager: true }
+);
+const badges = [
+  { file: 'aws-1.png', label: 'Financial Services Competency' },
+  { file: 'aws-2.png', label: 'Migration & Modernization Services' },
+  { file: 'aws-3.png', label: 'Data & Analytics Competency' },
+  { file: 'aws-4.png', label: 'Generative AI Services Competency' },
+  { file: 'aws-5.png', label: 'IoT Services Competency' },
+  { file: 'aws-6.png', label: 'AI Services Competency' },
+  { file: 'aws-7.png', label: 'Cloud Operations Competency' },
+  { file: 'aws-8.png', label: 'AWS Partner' },
+].filter((b) => badgeModules[`../../assets/home/badges/${b.file}`]);
+const src = (f: string) => badgeModules[`../../assets/home/badges/${f}`]?.default;
+// Duplicate the track for a seamless loop.
+const track = [...badges, ...badges];
+---
+
+<section class="section competencies below-fold" aria-labelledby="competencies-title">
+  <div class="container">
+    <Reveal class="competencies__head">
+      <p class="eyebrow eyebrow--icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Validado por AWS
+      </p>
+      <h2 id="competencies-title" class="h2 competencies__title">
+        Competencias que <span class="gradient-text">respaldan</span> cada proyecto
+      </h2>
+      <p class="muted competencies__lead">
+        AWS certifica nuestra especialización con las competencias más exigentes del
+        programa de partners. Es la prueba de que dominamos lo que implementamos.
+      </p>
+    </Reveal>
+  </div>
+
+  <div class="competencies__carousel" role="list" aria-label="Competencias AWS de Morris & Opazo">
+    <ul class="competencies__track">
+      {track.map((b, i) => (
+        <li class="competencies__item" role="listitem" aria-hidden={i >= badges.length ? 'true' : undefined}>
+          <span class="competency">
+            <Image src={src(b.file)!} alt={i >= badges.length ? '' : `AWS ${b.label}`} width={96} height={96} densities={[1, 2]} class="competency__badge" loading="lazy" decoding="async" />
+            <span class="competency__label">{b.label}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .competencies__head { max-width: 46ch; }
+  .competencies__title {
+    font-family: var(--font-display); font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.02em; margin-top: 0.75rem;
+  }
+  .competencies__lead { margin-top: 1rem; max-width: 56ch; }
+
+  .competencies__carousel {
+    position: relative;
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .competencies__track {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    width: max-content;
+    margin: 0;
+    padding: 0.5rem clamp(1.5rem, 6vw, 5rem);
+    list-style: none;
+    animation: competencies-scroll 40s linear infinite;
+    will-change: transform;
+  }
+  .competencies__carousel:hover .competencies__track { animation-play-state: paused; }
+  .competencies__item { flex: none; display: flex; width: 220px; }
+  .competency {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 1rem; width: 100%;
+    padding: 1.75rem 1.5rem;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+    transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .competency:hover { border-color: var(--brand-400); transform: translateY(-4px); }
+  .competency__badge { width: 84px; height: 84px; object-fit: contain; }
+  .competency__label {
+    font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); line-height: 1.5; max-width: 18ch;
+  }
+
+  @keyframes competencies-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .competencies__carousel { -webkit-mask-image: none; mask-image: none; overflow: visible; }
+    .competencies__track {
+      animation: none;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-inline: 0;
+    }
+    .competencies__item[aria-hidden='true'] { display: none; }
+  }
+</style>

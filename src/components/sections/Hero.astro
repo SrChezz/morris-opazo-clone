@@ -1,43 +1,87 @@
 ---
 // Hero — the signature moment. LCP area: nothing critical is lazy-loaded.
 // Single <h1> on the page. Gradient sweep reveal on "Transformamos negocios."
-import Button from '../Button.astro';
+import { Image } from 'astro:assets';
+import heroVisual from '../../assets/home/hero/hero-03-1.png';
+import awsAward from '../../assets/home/hero/aws-winner.png';
+
+// Inline Lucide icons (ISC) for the two value props.
+const iconSparkles =
+  '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>';
+const iconRocket =
+  '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>';
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <!-- Ambient animated gradient mesh (decorative, GPU-friendly). -->
+  <!-- Ambient animated background: drifting mesh + slow rotating conic sheen + grid. -->
+  <div class="hero__grid" aria-hidden="true"></div>
   <div class="hero__mesh" aria-hidden="true"></div>
+  <div class="hero__aurora" aria-hidden="true"></div>
   <div class="hero__glow" aria-hidden="true"></div>
 
   <div class="container hero__inner">
-    <span class="eyebrow hero__eyebrow">El partner que entiende tu industria.</span>
+    <div class="hero__copy">
+      <span class="eyebrow hero__eyebrow">El partner que entiende tu industria.</span>
 
-    <h1 id="hero-title" class="hero__title">
-      <span class="hero__line hero__line--1">No implementamos cloud.</span>
-      <span class="hero__line hero__line--2">
-        <span class="hero__reveal gradient-text">Transformamos negocios.</span>
+      <h1 id="hero-title" class="hero__title">
+        <span class="hero__line hero__line--1">No implementamos cloud.</span>
+        <span class="hero__line hero__line--2">
+          <span class="hero__reveal gradient-text">Transformamos negocios.</span>
+        </span>
+      </h1>
+
+      <span class="hero__partner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        Partner oficial de AWS
       </span>
-    </h1>
 
-    <span class="hero__badge">
-      <span class="hero__badge-dot" aria-hidden="true"></span>
-      Partner oficial de AWS
-    </span>
+      <ul class="hero__props" role="list">
+        <li class="hero__prop">
+          <span class="hero__prop-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={iconSparkles} />
+          </span>
+          <span class="hero__prop-text">Automatización inteligente y modelos avanzados de Gen AI.</span>
+          <a class="hero__prop-link" href="/servicio/gen-ai">
+            Ver soluciones
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+        <li class="hero__prop">
+          <span class="hero__prop-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={iconRocket} />
+          </span>
+          <span class="hero__prop-text">Infraestructura cloud y aceleración tecnológica para Startups en Latam.</span>
+          <a class="hero__prop-link" href="/startup">
+            Ver soluciones
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
 
-    <div class="hero__props">
-      <article class="card hero__prop">
-        <p class="hero__prop-text">
-          Automatización inteligente y modelos avanzados de Gen AI.
-        </p>
-        <Button href="#servicios" variant="ghost">Ver soluciones</Button>
-      </article>
-
-      <article class="card hero__prop">
-        <p class="hero__prop-text">
-          Infraestructura cloud y aceleración tecnológica para Startups en Latam.
-        </p>
-        <Button href="#servicios" variant="ghost">Ver soluciones</Button>
-      </article>
+    <!-- Subtle animated product visual (floats + gradient halo). -->
+    <div class="hero__visual">
+      <span class="hero__visual-halo" aria-hidden="true"></span>
+      <Image
+        src={heroVisual}
+        alt=""
+        aria-hidden="true"
+        widths={[420, 640, 860]}
+        sizes="(max-width: 980px) 55vw, 440px"
+        class="hero__visual-img"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <Image
+        src={awsAward}
+        alt="AWS Partner of the Year, Winner 2025"
+        widths={[180, 280, 360]}
+        sizes="180px"
+        class="hero__award"
+        loading="eager"
+        decoding="async"
+      />
     </div>
   </div>
 </section>
@@ -47,22 +91,37 @@ import Button from '../Button.astro';
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: min(100svh, 900px);
+    /* Fill the viewport below the 72px sticky header, but never force the
+       hero taller than its content needs (prevents overflow on short screens). */
+    min-height: calc(100svh - 72px);
     display: flex;
     align-items: center;
-    padding-block: clamp(6rem, 14vh, 9rem) clamp(4rem, 10vh, 7rem);
+    padding-block: clamp(1.5rem, 4vh, 3.5rem);
   }
 
-  /* Ambient drifting gradient mesh behind the type. */
+  /* Faint technical grid that slowly drifts. */
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    z-index: -4;
+    background-image:
+      linear-gradient(rgba(139, 124, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 124, 255, 0.05) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(120% 90% at 40% 10%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(120% 90% at 40% 10%, #000 30%, transparent 75%);
+    animation: hero-grid 40s linear infinite;
+  }
+
   .hero__mesh {
     position: absolute;
     inset: -20% -10% auto -10%;
     height: 120%;
     z-index: -2;
     background:
-      radial-gradient(38% 55% at 22% 18%, rgba(96, 91, 229, 0.30), transparent 62%),
+      radial-gradient(38% 55% at 22% 18%, rgba(96, 91, 229, 0.32), transparent 62%),
       radial-gradient(34% 48% at 82% 30%, rgba(56, 232, 216, 0.14), transparent 60%),
-      radial-gradient(46% 60% at 60% 88%, rgba(139, 124, 255, 0.18), transparent 64%);
+      radial-gradient(46% 60% at 60% 88%, rgba(139, 124, 255, 0.20), transparent 64%);
     background-size: 180% 180%;
     background-position: 0% 50%;
     filter: blur(6px);
@@ -70,7 +129,23 @@ import Button from '../Button.astro';
     will-change: background-position;
   }
 
-  /* Soft signature glow anchored to the headline. */
+  /* Slow rotating conic sheen for ambient movement. */
+  .hero__aurora {
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 70vw;
+    height: 70vw;
+    max-width: 900px;
+    max-height: 900px;
+    z-index: -3;
+    background: conic-gradient(from 0deg, transparent, rgba(96, 91, 229, 0.18), transparent 40%, rgba(56, 232, 216, 0.10), transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: hero-rotate 48s linear infinite;
+    will-change: transform;
+  }
+
   .hero__glow {
     position: absolute;
     inset: 0;
@@ -80,10 +155,57 @@ import Button from '../Button.astro';
   }
 
   .hero__inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+  .hero__copy {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: clamp(1.5rem, 4vw, 2.25rem);
+    gap: clamp(1.25rem, 3vw, 1.75rem);
+    min-width: 0;
+  }
+
+  .hero__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: hero-fade-up 0.9s var(--ease) 0.7s forwards;
+  }
+  .hero__visual-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    animation: hero-float 7s ease-in-out infinite;
+    will-change: transform;
+  }
+  .hero__visual-halo {
+    position: absolute;
+    inset: 8%;
+    z-index: 0;
+    background: var(--grad-flow);
+    filter: blur(60px);
+    opacity: 0.25;
+    border-radius: 50%;
+    animation: hero-halo 8s ease-in-out infinite alternate;
+  }
+  /* AWS Partner of the Year award badge — floating evidence, top-right. */
+  .hero__award {
+    position: absolute;
+    z-index: 2;
+    right: -8%;
+    top: -4%;
+    width: clamp(120px, 15vw, 180px);
+    height: auto;
+    filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.6));
+    animation: hero-float 7s ease-in-out infinite reverse;
+    will-change: transform;
   }
 
   .hero__eyebrow {
@@ -93,10 +215,10 @@ import Button from '../Button.astro';
   }
 
   .hero__title {
-    font-size: var(--fs-display);
-    line-height: 0.98;
+    font-size: clamp(2.4rem, 1.5rem + 4vw, 4.75rem);
+    line-height: 1.0;
     letter-spacing: -0.03em;
-    max-width: 18ch;
+    max-width: 16ch;
   }
   .hero__line { display: block; }
   .hero__line--1 {
@@ -106,91 +228,132 @@ import Button from '../Button.astro';
     animation: hero-fade-up 0.7s var(--ease) 0.22s forwards;
   }
   .hero__line--2 { position: relative; }
-
-  /* The bold moment: gradient text revealed with a clip-path sweep. */
   .hero__reveal {
     display: inline-block;
     clip-path: inset(0 100% 0 0);
     animation: hero-sweep 0.95s var(--ease) 0.5s forwards;
   }
 
-  .hero__badge {
+  /* Partner mark: a check-badge lockup, not the generic pulsing dot pill. */
+  .hero__partner {
     display: inline-flex;
     align-items: center;
-    gap: 0.55em;
+    gap: 0.5rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: 0.5em 0.9em;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-btn);
-    background: rgba(255, 255, 255, 0.02);
     opacity: 0;
     animation: hero-fade-up 0.7s var(--ease) 0.85s forwards;
   }
-  .hero__badge-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 999px;
-    background: var(--accent-cyan);
-    box-shadow: 0 0 10px 1px rgba(56, 232, 216, 0.7);
-  }
+  .hero__partner svg { color: var(--accent-cyan); flex: none; }
 
   .hero__props {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1rem, 2vw, 1.5rem);
+    gap: clamp(0.85rem, 1.5vw, 1.25rem);
     width: 100%;
-    max-width: 780px;
-    margin-top: clamp(0.5rem, 2vw, 1.25rem);
+    max-width: 720px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   .hero__prop {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.25rem;
-    padding: clamp(1.25rem, 3vw, 1.75rem);
+    gap: 0.85rem;
+    /* More breathing room between text and card edges. */
+    padding: 1.5rem 1.6rem;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+    transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
     opacity: 0;
     transform: translateY(18px);
     animation: hero-fade-up 0.7s var(--ease) forwards;
   }
+  .hero__prop:hover { border-color: var(--brand-400); transform: translateY(-3px); }
   .hero__props > .hero__prop:nth-child(1) { animation-delay: 1s; }
   .hero__props > .hero__prop:nth-child(2) { animation-delay: 1.12s; }
+  .hero__prop-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 10px; flex: none;
+    color: var(--brand-400);
+    background: rgba(139, 124, 255, 0.10);
+    border: 1px solid var(--line);
+  }
   .hero__prop-text {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-weight: 500;
-    font-size: var(--fs-h3);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+    font-size: 0.98rem;
+    line-height: 1.45;
     color: var(--paper);
   }
+  .hero__prop-link {
+    margin-top: auto;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.875rem;
+    color: var(--brand-400);
+  }
+  .hero__prop-link svg { transition: transform 0.25s var(--ease); }
+  .hero__prop:hover .hero__prop-link svg { transform: translateX(3px); }
 
   @keyframes hero-drift {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
   }
+  @keyframes hero-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes hero-grid {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 46px 46px, 46px 46px; }
+  }
+  @keyframes hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  @keyframes hero-halo {
+    from { transform: scale(0.95); opacity: 0.18; }
+    to { transform: scale(1.08); opacity: 0.3; }
+  }
   @keyframes hero-sweep {
     from { clip-path: inset(0 100% 0 0); }
     to { clip-path: inset(0 0 0 0); }
   }
-  @keyframes hero-fade-up {
-    to { opacity: 1; transform: none; }
-  }
+  @keyframes hero-fade-up { to { opacity: 1; transform: none; } }
 
-  @media (max-width: 640px) {
+  @media (max-width: 980px) {
+    .hero__inner { grid-template-columns: 1fr; }
+    .hero__visual { order: -1; max-width: 320px; margin-inline: auto; }
+  }
+  @media (max-width: 560px) {
     .hero__props { grid-template-columns: 1fr; }
     .hero__title { max-width: 100%; }
+    .hero__visual { max-width: 240px; }
+    .hero__award { width: clamp(96px, 26vw, 130px); right: 0; }
   }
 
-  /* Reduced motion: show everything instantly, kill drift. */
+  /* Short viewports (laptops, landscape): don't force full height; let content flow. */
+  @media (max-height: 760px) and (min-width: 981px) {
+    .hero { min-height: 0; }
+    .hero__title { font-size: clamp(2.2rem, 1.4rem + 3vw, 3.5rem); }
+    .hero__copy { gap: 1.15rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .hero__mesh { animation: none; }
+    .hero__mesh, .hero__aurora, .hero__grid { animation: none; }
     .hero__eyebrow,
     .hero__line--1,
-    .hero__badge,
-    .hero__prop { opacity: 1; transform: none; animation: none; }
+    .hero__partner,
+    .hero__prop,
+    .hero__visual { opacity: 1; transform: none; animation: none; }
+    .hero__visual-img,
+    .hero__visual-halo,
+    .hero__award { animation: none; }
     .hero__reveal { clip-path: none; animation: none; }
   }
 </style>

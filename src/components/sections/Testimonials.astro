@@ -1,13 +1,23 @@
 ---
-// Testimonials — elegant, typography-forward quote cards.
+// Testimonials — quote cards with the real person photo + client company logo.
+import { Image } from 'astro:assets';
 import { testimonials } from '../../data/site';
 import Reveal from '../Reveal.astro';
+
+const media = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/home/testimonials/*.png',
+  { eager: true }
+);
+const img = (file: string) => media[`../../assets/home/testimonials/${file}`]?.default;
 ---
 
 <section class="section testimonials below-fold" aria-labelledby="testimonials-title">
   <div class="container">
     <Reveal>
-      <p class="eyebrow">Lo que dicen nuestros clientes</p>
+      <p class="eyebrow eyebrow--icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        Lo que dicen nuestros clientes
+      </p>
       <h2 id="testimonials-title" class="h2 testimonials__title">
         Confianza construida proyecto a proyecto.
       </h2>
@@ -18,12 +28,31 @@ import Reveal from '../Reveal.astro';
         <Reveal as="li" delay={(i + 1) as 1 | 2 | 3} class="testimonials__item">
           <figure class="card quote">
             <span class="quote__mark" aria-hidden="true">&ldquo;</span>
-            <blockquote class="quote__body">
-              <p>{t.quote}</p>
-            </blockquote>
+            <blockquote class="quote__body"><p>{t.quote}</p></blockquote>
             <figcaption class="quote__cite">
-              <span class="quote__name">{t.name}</span>
-              <span class="quote__role">{t.role}</span>
+              <Image
+                src={img(t.photo)!}
+                alt={t.name}
+                width={52}
+                height={52}
+                densities={[1, 2]}
+                class="quote__avatar"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="quote__meta">
+                <span class="quote__name">{t.name}</span>
+                <span class="quote__role">{t.role}</span>
+              </span>
+              <Image
+                src={img(t.company)!}
+                alt={t.companyAlt}
+                height={26}
+                densities={[1, 2]}
+                class="quote__company"
+                loading="lazy"
+                decoding="async"
+              />
             </figcaption>
           </figure>
         </Reveal>
@@ -33,83 +62,54 @@ import Reveal from '../Reveal.astro';
 </section>
 
 <style>
-  .testimonials__title {
-    max-width: 20ch;
-    margin-top: 0.75rem;
-  }
-
+  .testimonials__title { max-width: 20ch; margin-top: 0.75rem; }
   .testimonials__grid {
     margin-top: clamp(2.5rem, 5vw, 4rem);
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(3, 1fr);
+    display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr);
   }
-
-  .testimonials__item {
-    display: flex;
-  }
-
+  .testimonials__item { display: flex; }
   .quote {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 1.75rem 1.75rem;
-    isolation: isolate;
+    position: relative; display: flex; flex-direction: column;
+    padding: 2.25rem 2rem 2rem; isolation: isolate;
+    height: 100%; width: 100%;
   }
-
-  /* --brand accent bar on the leading edge */
   .quote::before {
-    content: "";
-    position: absolute;
-    inset: 1.75rem auto 1.75rem 0;
-    width: 3px;
-    border-radius: 999px;
-    background: var(--grad-flow);
-    opacity: 0.55;
-    transition: opacity 0.3s var(--ease);
+    content: ""; position: absolute; inset: 1.75rem auto 1.75rem 0;
+    width: 3px; border-radius: 999px; background: var(--grad-flow);
+    opacity: 0.55; transition: opacity 0.3s var(--ease);
   }
   .quote:hover::before { opacity: 1; }
-
   .quote__mark {
-    font-family: var(--font-display);
-    font-size: 4.5rem;
-    line-height: 0.7;
-    color: var(--brand-400);
-    opacity: 0.28;
-    margin-bottom: 0.25rem;
-    user-select: none;
+    font-family: var(--font-display); font-size: 4.5rem; line-height: 0.7;
+    color: var(--brand-400); opacity: 0.28; margin-bottom: 0.25rem; user-select: none;
   }
-
   .quote__body p {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--paper);
-    max-width: 46ch;
+    font-size: 1.0625rem; line-height: 1.7; color: var(--paper); max-width: 46ch;
   }
-
   .quote__cite {
-    margin-top: auto;
-    padding-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+    margin-top: auto; padding-top: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.85rem;
     font-style: normal;
   }
-
-  .quote__name {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 1.0625rem;
-    color: var(--paper);
-    letter-spacing: -0.01em;
+  .quote__avatar {
+    width: 52px; height: 52px; border-radius: 999px; object-fit: cover;
+    border: 1px solid var(--line-strong); flex: none;
   }
-
+  .quote__meta { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+  .quote__name {
+    font-family: var(--font-display); font-weight: 500; font-size: 1rem;
+    color: var(--paper); letter-spacing: -0.01em;
+  }
   .quote__role {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
+    font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); line-height: 1.4;
+  }
+  .quote__company {
+    height: 24px; width: auto; object-fit: contain; flex: none;
+    filter: grayscale(1) brightness(0) invert(0.75); opacity: 0.7;
   }
 
   @media (max-width: 900px) {

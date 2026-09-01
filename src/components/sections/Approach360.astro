@@ -12,8 +12,7 @@ import { services } from '../../data/site';
 
     <Reveal delay={1} as="p">
       <span id="approach-title" class="approach__statement">
-        Para que tu empresa saque el máximo provecho de AWS
-        <span class="approach__dash"> — </span>
+        Para que tu empresa saque el máximo provecho de AWS,
         <span class="gradient-text">en cada etapa del camino.</span>
       </span>
     </Reveal>
@@ -23,7 +22,7 @@ import { services } from '../../data/site';
       <ul class="approach__chips">
         {services.map((service) => (
           <li>
-            <a class="approach__chip" href="#servicios">{service.title}</a>
+            <a class="approach__chip" href={`/servicio/${service.slug}`}>{service.title}</a>
           </li>
         ))}
       </ul>

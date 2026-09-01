@@ -1,159 +1,105 @@
 ---
-// Services section — #servicios. Grid of 6 service cards with distinct line icons.
+// Services section — #servicios. Grid of 6 service cards.
+// The brand images are landscape photographs (391x224), shown as card banners.
+import { Image } from 'astro:assets';
 import { services } from '../../data/site';
 import Reveal from '../Reveal.astro';
 
-// Distinct 24px stroke line-icons per service.icon key. currentColor so CSS can tint.
-const icons: Record<string, string> = {
-  // Application Modernization — layered blocks refactored
-  modernize:
-    '<path d="M3 7l5-3 5 3M3 7v6l5 3M3 7l5 3m0 0v6m0-6l5-3"/><path d="M14 14l3 3m0 0l3-3m-3 3v-6" stroke-linecap="round"/>',
-  // Cloud Migration — cloud with upward arrow
-  migrate:
-    '<path d="M7 18a4 4 0 010-8 5 5 0 019.6 1.3A3.5 3.5 0 0116 18H7z"/><path d="M11.5 15V9m0 0L9 11.5M11.5 9L14 11.5" stroke-linecap="round" stroke-linejoin="round"/>',
-  // Data & Analytics — stacked database + bar
-  data:
-    '<ellipse cx="8" cy="5.5" rx="5" ry="2"/><path d="M3 5.5v5c0 1.1 2.2 2 5 2s5-.9 5-2v-5"/><path d="M3 10.5v5c0 1.1 2.2 2 5 2 .7 0 1.4-.06 2-.16"/><path d="M15 20v-4m3 4v-6m3 6v-2" stroke-linecap="round"/>',
-  // Gen AI — spark / generative star
-  genai:
-    '<path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3z" stroke-linejoin="round"/><path d="M18 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8z" stroke-linejoin="round"/>',
-  // AI & Machine Learning — connected neural nodes
-  ml:
-    '<circle cx="5" cy="6" r="1.8"/><circle cx="5" cy="18" r="1.8"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="8" r="1.8"/><circle cx="19" cy="17" r="1.8"/><path d="M6.6 6.9L10 11m-3.4 6.1L10 13m4-1.4L17.4 8.6M14 12.6l3.4 3.6" stroke-linecap="round"/>',
-  // Internet of Things — hub with broadcast waves
-  iot:
-    '<circle cx="12" cy="12" r="2.2"/><path d="M8 8a5.5 5.5 0 000 8m8-8a5.5 5.5 0 010 8M5.5 5.5a9 9 0 000 13m13-13a9 9 0 010 13" stroke-linecap="round"/>',
-};
+const iconModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/home/services/*.png',
+  { eager: true }
+);
+const imgFor = (file: string) =>
+  iconModules[`../../assets/home/services/${file}`]?.default;
 ---
 
 <section id="servicios" class="section below-fold">
   <div class="container">
     <Reveal class="services__head">
-      <p class="eyebrow">Servicios</p>
+      <p class="eyebrow eyebrow--icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9V5a2 2 0 0 1 2-2h4"/><path d="M2 15v4a2 2 0 0 0 2 2h4"/><path d="M22 9V5a2 2 0 0 0-2-2h-4"/><path d="M22 15v4a2 2 0 0 1-2 2h-4"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>
+        Servicios
+      </p>
       <h2 class="h2 services__title">
         Expertos en <span class="gradient-text">cada capa</span> de tu nube
       </h2>
     </Reveal>
 
     <ul class="services__grid" role="list">
-      {
-        services.map((service, i) => (
-          <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
-            <article class="card svc">
-              <span class="svc__icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  set:html={icons[service.icon]}
-                />
-              </span>
-              <h3 class="h3 svc__title">{service.title}</h3>
+      {services.map((service, i) => (
+        <Reveal as="li" delay={(i % 5) as 0 | 1 | 2 | 3 | 4}>
+          <a class="card svc" href={`/servicio/${service.slug}`}>
+            <span class="svc__media">
+              <Image
+                src={imgFor(service.img)!}
+                alt={service.title}
+                widths={[300, 400, 520]}
+                sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 360px"
+                class="svc__img"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span class="svc__body">
+              <h3 class="h3 svc__title-c">{service.title}</h3>
               <p class="muted svc__desc">{service.desc}</p>
-              <span class="svc__line" aria-hidden="true" />
-            </article>
-          </Reveal>
-        ))
-      }
+              <span class="svc__cta">
+                Ver servicio
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </span>
+          </a>
+        </Reveal>
+      ))}
     </ul>
   </div>
 </section>
 
 <style>
-  .services__head {
-    max-width: 34ch;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-  }
+  .services__head { max-width: 34ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .services__title {
     font-family: var(--font-display);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-top: 0.75rem;
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-top: 0.75rem;
   }
-
   .services__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1rem, 2vw, 1.5rem);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2vw, 1.75rem); list-style: none; margin: 0; padding: 0;
   }
-
   .svc {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: clamp(1.5rem, 2.5vw, 2rem);
+    position: relative; display: flex; flex-direction: column; height: 100%;
     overflow: hidden;
   }
+  .svc__media {
+    display: block; aspect-ratio: 16 / 10; overflow: hidden;
+    border-bottom: 1px solid var(--line); background: var(--ink-3);
+  }
+  .svc__img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .svc:hover .svc__img { transform: scale(1.05); }
+  .svc__body {
+    display: flex; flex-direction: column;
+    padding: clamp(1.5rem, 2.5vw, 1.9rem);
+    flex: 1;
+  }
+  .svc__title-c {
+    font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em;
+    margin: 0 0 0.75rem; color: var(--paper); font-size: 1.2rem;
+  }
+  .svc__desc { font-family: var(--font-body); line-height: 1.65; margin: 0; font-size: 0.95rem; }
+  .svc__cta {
+    margin-top: 1.5rem; display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; color: var(--brand-400);
+  }
+  .svc__cta svg { transition: transform 0.25s var(--ease); }
+  .svc:hover .svc__cta svg { transform: translateX(4px); }
 
-  .svc__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    color: var(--brand-400);
-    background: rgba(139, 124, 255, 0.1);
-    border: 1px solid var(--line);
-    margin-bottom: 1.25rem;
-    transition: background 0.3s var(--ease), color 0.3s var(--ease);
-  }
-  .svc:hover .svc__icon {
-    background: rgba(139, 124, 255, 0.18);
-  }
-
-  .svc__title {
-    font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    margin: 0 0 0.6rem;
-  }
-  .svc__desc {
-    font-family: var(--font-body);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* Accent line grows in on hover — transform only */
-  .svc__line {
-    margin-top: auto;
-    padding-top: 1.5rem;
-    display: block;
-    height: 2px;
-    width: 100%;
-  }
-  .svc__line::after {
-    content: '';
-    display: block;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--grad-flow);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s var(--ease);
-  }
-  .svc:hover .svc__line::after {
-    transform: scaleX(1);
-  }
-
-  @media (max-width: 900px) {
-    .services__grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 560px) {
-    .services__grid { grid-template-columns: 1fr; }
-  }
-
+  @media (max-width: 900px) { .services__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .services__grid { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) {
-    .svc__icon,
-    .svc__line::after { transition: none; }
-    .svc__line::after { transform: scaleX(1); }
+    .svc__img, .svc__cta svg { transition: none; }
   }
 </style>

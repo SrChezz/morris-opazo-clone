@@ -1,30 +1,48 @@
 ---
-// ClientLogos — quiet, low-contrast trust strip.
+// ClientLogos — trust ribbon with the real client logos.
+// Quiet by default (desaturated, low opacity), full color on hover.
 // Gentle auto-scroll marquee; static centered row on prefers-reduced-motion.
+import { Image } from 'astro:assets';
 import { clients } from '../../data/site';
 
-// Human-friendly wordmarks for the placeholder client keys.
-const wordmarks: Record<string, string> = {
-  am: 'AM',
-  aa: 'Agua de Quito',
-  sura: 'SURA',
-  uno: 'UNO',
-  claro: 'Claro',
+// Eagerly load every logo asset so we can map by filename from data.
+const logoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/home/logos/*.png',
+  { eager: true }
+);
+const logoFor = (key: string) =>
+  logoModules[`../../assets/home/logos/logo-${key}.png`]?.default;
+
+const labels: Record<string, string> = {
+  am: 'AM', aa: 'Agua de Quito', sura: 'SURA', uno: 'UNO', claro: 'Claro',
 };
-const items = clients.map((key) => ({ key, label: wordmarks[key] ?? key.toUpperCase() }));
-// Duplicated track so the marquee can loop seamlessly.
+const items = clients
+  .map((key) => ({ key, label: labels[key] ?? key, img: logoFor(key) }))
+  .filter((i) => i.img);
+// Duplicate the track for a seamless loop.
 const track = [...items, ...items];
 ---
 
 <section class="clients section" aria-label="Clientes que confían en nosotros">
   <div class="container">
-    <p class="clients__label">Confían en nosotros</p>
-
-    <div class="clients__marquee" role="list">
-      <ul class="clients__track" aria-hidden="false">
+    <p class="clients__label">
+      <span class="clients__label-line" aria-hidden="true"></span>
+      Con la confianza de empresas líderes en Latinoamérica
+      <span class="clients__label-line" aria-hidden="true"></span>
+    </p>
+    <div class="clients__marquee">
+      <ul class="clients__track" role="list">
         {track.map((item, i) => (
-          <li class="clients__item" role="listitem" aria-hidden={i >= items.length ? 'true' : 'false'}>
-            <span class="clients__wordmark">{item.label}</span>
+          <li class="clients__item" role="listitem" aria-hidden={i >= items.length ? 'true' : undefined}>
+            <Image
+              src={item.img!}
+              alt={i >= items.length ? '' : item.label}
+              height={64}
+              densities={[1, 2]}
+              class="clients__logo"
+              loading="lazy"
+              decoding="async"
+            />
           </li>
         ))}
       </ul>
@@ -34,56 +52,64 @@ const track = [...items, ...items];
 
 <style>
   .clients {
-    padding-block: clamp(2.5rem, 6vw, 4rem);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
     border-block: 1px solid var(--line);
   }
-
   .clients__label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     color: var(--muted-2);
     text-align: center;
-    margin-bottom: 1.75rem;
+    margin-bottom: 2.5rem;
   }
-
+  .clients__label-line {
+    display: block;
+    width: clamp(1.5rem, 8vw, 5rem);
+    height: 1px;
+    background: var(--line-strong);
+  }
   .clients__marquee {
     position: relative;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   }
-
   .clients__track {
     display: flex;
     align-items: center;
-    gap: clamp(2.5rem, 6vw, 5rem);
+    gap: clamp(3.5rem, 8vw, 7rem);
     width: max-content;
-    animation: clients-scroll 32s linear infinite;
+    margin: 0;
+    padding: 0;
+    animation: clients-scroll 34s linear infinite;
     will-change: transform;
   }
-
-  .clients__item { flex: none; }
-
-  .clients__wordmark {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 1.35rem;
-    letter-spacing: 0.02em;
-    color: var(--muted-2);
-    opacity: 0.65;
-    transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
-    white-space: nowrap;
+  .clients__item { flex: none; display: flex; align-items: center; }
+  .clients__logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0) invert(0.78);
+    opacity: 0.6;
+    transition: opacity 0.3s var(--ease), filter 0.3s var(--ease);
   }
-  .clients__item:hover .clients__wordmark { color: var(--muted); opacity: 1; }
+  .clients__item:hover .clients__logo { filter: none; opacity: 1; }
 
   @keyframes clients-scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
 
-  /* Reduced motion: stop the marquee, center a static, non-duplicated row. */
+  @media (max-width: 640px) {
+    .clients__logo { height: 40px; }
+    .clients__label-line { width: 1.5rem; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .clients__marquee { -webkit-mask-image: none; mask-image: none; }
     .clients__track {
@@ -91,7 +117,7 @@ const track = [...items, ...items];
       width: 100%;
       flex-wrap: wrap;
       justify-content: center;
-      row-gap: 1.25rem;
+      row-gap: 2rem;
     }
     .clients__item[aria-hidden='true'] { display: none; }
   }

@@ -56,7 +56,7 @@ p { text-wrap: pretty; }
 
   /* layout */
   --container: 1200px;
-  --pad-x: clamp(1.25rem, 5vw, 4rem);
+  --pad-x: clamp(1.5rem, 6vw, 5rem);
   --section-y: clamp(5rem, 10vw, 9rem);
 
   /* radii & motion */
@@ -92,6 +92,12 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing:
   letter-spacing: 0.18em;
   color: var(--brand-400);
 }
+.eyebrow--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.eyebrow--icon svg { flex: none; }
 .h2 { font-size: var(--fs-h2); }
 .h3 { font-size: var(--fs-h3); }
 .muted { color: var(--muted); }

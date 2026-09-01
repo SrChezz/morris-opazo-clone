@@ -1,0 +1,104 @@
+---
+// Industries section (home) — #industrias. The second axis of the value prop.
+// Brand images are landscape photographs; shown as card banners.
+import { Image } from 'astro:assets';
+import { industryCards } from '../../data/site';
+import Reveal from '../Reveal.astro';
+
+const iconModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/home/industries/*.png',
+  { eager: true }
+);
+const imgFor = (file: string) =>
+  iconModules[`../../assets/home/industries/${file}`]?.default;
+---
+
+<section id="industrias" class="section below-fold industries">
+  <div class="container">
+    <Reveal class="industries__head">
+      <p class="eyebrow eyebrow--icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>
+        Industrias
+      </p>
+      <h2 class="h2 industries__title">
+        El partner que <span class="gradient-text">entiende tu industria</span>
+      </h2>
+      <p class="muted industries__lead">
+        No aplicamos recetas genéricas. Diseñamos sobre AWS conociendo los desafíos
+        reales de tu sector.
+      </p>
+    </Reveal>
+
+    <ul class="industries__grid" role="list">
+      {industryCards.map((ind, i) => (
+        <Reveal as="li" delay={(i % 4) as 0 | 1 | 2 | 3}>
+          <a class="card ind" href={`/industria/${ind.slug}`}>
+            <span class="ind__media">
+              <Image
+                src={imgFor(ind.img)!}
+                alt={ind.title}
+                widths={[300, 400, 520]}
+                sizes="(max-width: 520px) 100vw, (max-width: 1000px) 50vw, 300px"
+                class="ind__img"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span class="ind__foot">
+              <span class="ind__title">{ind.title}</span>
+              <svg class="ind__arrow" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </Reveal>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .industries__head { max-width: 40ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .industries__title {
+    font-family: var(--font-display); font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.02em; margin-top: 0.75rem;
+  }
+  .industries__lead { margin-top: 1.25rem; max-width: 52ch; }
+
+  .industries__grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.25rem, 2vw, 1.75rem); list-style: none; margin: 0; padding: 0;
+  }
+  .ind {
+    position: relative; display: flex; flex-direction: column;
+    height: 100%; overflow: hidden;
+  }
+  .ind__media {
+    display: block; aspect-ratio: 16 / 10; overflow: hidden;
+    border-bottom: 1px solid var(--line); background: var(--ink-3);
+  }
+  .ind__img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .ind:hover .ind__img { transform: scale(1.05); }
+  .ind__foot {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem 1.4rem;
+  }
+  .ind__title {
+    font-family: var(--font-display); font-weight: 500; font-size: 1.05rem;
+    letter-spacing: -0.01em; color: var(--paper); line-height: 1.25;
+  }
+  .ind__arrow {
+    margin-left: auto; flex: none; color: var(--muted-2);
+    transition: transform 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .ind:hover .ind__arrow { color: var(--brand-400); transform: translateX(3px); }
+
+  @media (max-width: 1000px) { .industries__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .industries__grid { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ind__img, .ind__arrow { transition: none; }
+  }
+</style>
