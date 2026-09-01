@@ -36,3 +36,11 @@ Con la operación soportada en AWS por recomendación de Morris & Opazo, el siti
 ## Tecnología de clase mundial al servicio de las personas
 
 El caso de Round Trips demuestra algo que suele perderse entre cifras y arquitecturas: la tecnología de los grandes actores de la industria no está reservada para las grandes corporaciones. Morris & Opazo, con sus competencias validadas por AWS, genera soluciones para empresas de todos los tamaños.
+
+## El valor de un partner que acompaña
+
+Sobre la experiencia de trabajar con Morris & Opazo, la fundadora destaca la combinación de rigor y cercanía: un equipo que propone, ajusta el diseño hasta que refleja la identidad del negocio y avanza rápido en cada reunión. «Son extremadamente profesionales y al mismo tiempo muy cálidos y cercanos», señala. Es el mismo enfoque con el que Morris & Opazo acompaña a organizaciones del sector salud en toda América: la tecnología como medio para un resultado de negocio concreto —más capacidad, menos riesgo, mejor atención— y no como un fin en sí misma.
+
+¿Tu organización necesita escalar su operación sin perder calidad de atención? En Morris & Opazo diseñamos e implementamos soluciones en AWS que transforman procesos críticos en ventajas competitivas. Conversemos.
+
+<https://www.youtube.com/>
