@@ -58,13 +58,13 @@ const track = [...badges, ...badges];
   .competencies__head { max-width: 46ch; }
   .competencies__title {
     font-family: var(--font-display); font-weight: 700; line-height: 1.05;
-    letter-spacing: -0.02em; margin-top: 0.75rem;
+    letter-spacing: -0.02em; margin-top: var(--stack-xs);
   }
-  .competencies__lead { margin-top: 1rem; max-width: 56ch; }
+  .competencies__lead { margin-top: var(--stack-sm); max-width: 56ch; }
 
   .competencies__carousel {
     position: relative;
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    margin-top: var(--stack-block);
     overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);

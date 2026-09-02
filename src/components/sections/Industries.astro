@@ -58,16 +58,16 @@ const imgFor = (file: string) =>
 </section>
 
 <style>
-  .industries__head { max-width: 40ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .industries__head { max-width: 40ch; margin-bottom: var(--stack-block); }
   .industries__title {
     font-family: var(--font-display); font-weight: 700; line-height: 1.05;
-    letter-spacing: -0.02em; margin-top: 0.75rem;
+    letter-spacing: -0.02em; margin-top: var(--stack-xs);
   }
-  .industries__lead { margin-top: 1.25rem; max-width: 52ch; }
+  .industries__lead { margin-top: var(--stack-sm); max-width: 52ch; }
 
   .industries__grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.25rem, 2vw, 1.75rem); list-style: none; margin: 0; padding: 0;
+    gap: var(--gap-grid); list-style: none; margin: 0; padding: 0;
   }
   .ind {
     position: relative; display: flex; flex-direction: column;

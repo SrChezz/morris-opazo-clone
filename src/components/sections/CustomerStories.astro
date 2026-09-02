@@ -74,7 +74,7 @@ const featured = stories.slice(0, 3);
     display: flex; align-items: flex-end; justify-content: space-between;
     gap: 1.5rem; flex-wrap: wrap;
   }
-  .stories__title { max-width: 18ch; margin-top: 0.75rem; }
+  .stories__title { max-width: 18ch; margin-top: var(--stack-xs); }
   .stories__all {
     display: inline-flex; align-items: center; gap: 0.5rem;
     font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
@@ -84,8 +84,8 @@ const featured = stories.slice(0, 3);
   .stories__all:hover svg { transform: translateX(4px); }
 
   .stories__grid {
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--stack-block);
+    display: grid; gap: var(--gap-grid); grid-template-columns: repeat(3, 1fr);
     list-style: none; padding: 0;
   }
   .stories__item { display: flex; }

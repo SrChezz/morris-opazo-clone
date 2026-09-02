@@ -58,14 +58,14 @@ const imgFor = (file: string) =>
 </section>
 
 <style>
-  .services__head { max-width: 34ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .services__head { max-width: 34ch; margin-bottom: var(--stack-block); }
   .services__title {
     font-family: var(--font-display);
-    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-top: 0.75rem;
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-top: var(--stack-xs);
   }
   .services__grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.25rem, 2vw, 1.75rem); list-style: none; margin: 0; padding: 0;
+    gap: var(--gap-grid); list-style: none; margin: 0; padding: 0;
   }
   .svc {
     position: relative; display: flex; flex-direction: column; height: 100%;

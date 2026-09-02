@@ -62,10 +62,10 @@ const img = (file: string) => media[`../../assets/home/testimonials/${file}`]?.d
 </section>
 
 <style>
-  .testimonials__title { max-width: 20ch; margin-top: 0.75rem; }
+  .testimonials__title { max-width: 20ch; margin-top: var(--stack-xs); }
   .testimonials__grid {
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--stack-block);
+    display: grid; gap: var(--gap-grid); grid-template-columns: repeat(3, 1fr);
   }
   .testimonials__item { display: flex; }
   .quote {

@@ -59,6 +59,13 @@ p { text-wrap: pretty; }
   --pad-x: clamp(1.5rem, 6vw, 5rem);
   --section-y: clamp(5rem, 10vw, 9rem);
 
+  /* vertical rhythm inside .container — all values on the 8px grid */
+  --stack-xs: 1rem;                        /* eyebrow → title         (16px) */
+  --stack-sm: 1.5rem;                      /* title → lead paragraph  (24px) */
+  --stack-md: clamp(2rem, 3vw, 2.75rem);   /* compact strips          (32→44px) */
+  --stack-block: clamp(3.5rem, 6vw, 5.5rem); /* head block → grid     (56→88px) */
+  --gap-grid: clamp(1.5rem, 2vw, 2rem);    /* between sibling cards   (24→32px) */
+
   /* radii & motion */
   --r-card: 16px;
   --r-btn: 999px;

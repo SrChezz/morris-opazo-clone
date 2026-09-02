@@ -6,11 +6,14 @@ interface Props {
   as?: string;
   class?: string;
 }
-const { delay = 0, as = 'div', class: className = '' } = Astro.props;
+// ...rest carries the parent's data-astro-cid-* scope attribute. Without
+// forwarding it, every scoped rule targeting a class passed to <Reveal>
+// (.services__head, .stories__head, .hero__title...) silently never matches.
+const { delay = 0, as = 'div', class: className = '', ...rest } = Astro.props;
 const Tag = as as any;
 ---
 
-<Tag data-reveal data-reveal-delay={delay} class={className}>
+<Tag data-reveal data-reveal-delay={delay} class={className} {...rest}>
   <slot />
 </Tag>
 

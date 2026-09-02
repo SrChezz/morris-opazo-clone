@@ -54,9 +54,38 @@ Body line-height 1.6, max-width de párrafo ~62ch.
 
 ## Espaciado / layout
 - Grid base 8px. Escala: 4,8,12,16,24,32,48,64,96,128.
-- Contenedor: `--container: 1200px`, padding lateral `clamp(1.25rem, 5vw, 4rem)`.
-- Ritmo vertical de secciones: `clamp(5rem, 10vw, 9rem)` padding-block.
+- Contenedor: `--container: 1200px`, padding lateral `--pad-x: clamp(1.5rem, 6vw, 5rem)`.
+- Ritmo vertical **entre** secciones: `--section-y: clamp(5rem, 10vw, 9rem)` padding-block.
 - Radios: cards `16px`, botones `999px` (pill) o `10px`. Coherencia: elegir y mantener.
+
+### Ritmo vertical DENTRO de `.container` (tokens obligatorios)
+```
+--stack-xs:    1rem;                        /* eyebrow → título        (16px) */
+--stack-sm:    1.5rem;                      /* título → párrafo lead   (24px) */
+--stack-md:    clamp(2rem, 3vw, 2.75rem);   /* franjas compactas       (32→44px) */
+--stack-block: clamp(3.5rem, 6vw, 5.5rem);  /* bloque head → grid      (56→88px) */
+--gap-grid:    clamp(1.5rem, 2vw, 2rem);    /* entre cards hermanas    (24→32px) */
+```
+**Regla:** el ritmo vertical dentro de `.container` sale SIEMPRE de estos tokens.
+NUNCA escribir un `clamp()` suelto para espaciado — así se duplicaron cinco veces
+los mismos valores y Competencies quedó descuadrado. Para ajustar el aire de toda
+la home, se tocan estas cinco líneas en `global.css`, nada más.
+
+`.container` NO define `display` ni `gap` propios: cada sección elige su mecanismo
+(margin-bottom en el head, margin-top en el grid, o gap si ya es flex/grid) y lo
+alimenta con el token. No añadir una regla global tipo `.container > * + *`:
+duplicaría el espacio en las secciones que ya traen margin propio.
+
+**Gotcha `<Reveal>`:** `Reveal.astro` reenvía `{...rest}` al elemento raíz porque ahí
+viaja el atributo `data-astro-cid-*` del padre. Si se quita ese spread, TODA regla
+scoped que apunte a una clase pasada a `<Reveal class="...">` deja de aplicar en
+silencio — el CSS compila a `.foo[data-astro-cid-xxx]` y el elemento no lleva ese
+atributo. Así estuvo muerto el `margin-bottom` de `.services__head`. No hay error,
+no hay warning: el espaciado simplemente desaparece.
+
+Excepción documentada: **Stats** expresa su ritmo como `padding` en `.stats__grid`
+(sus dos `.stats__divider` van pegados a esa caja y de ahí sacan el aire); usa el
+token pero no se convierte a margin/gap.
 
 ## Signature element
 Hero "cloud transformation": la palabra **"Transformamos"** se revela con un barrido de

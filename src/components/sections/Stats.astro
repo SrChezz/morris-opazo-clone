@@ -56,7 +56,9 @@ const icons = [
     gap: clamp(1.5rem, 3vw, 2.5rem);
     list-style: none;
     margin: 0;
-    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    /* padding, not margin/gap: the two .stats__divider siblings sit flush
+       against this box and borrow their air from here. */
+    padding: var(--stack-block) 0;
   }
   .stats__item {
     display: flex;
